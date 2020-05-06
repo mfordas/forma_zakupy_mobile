@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
+import LogoHomePage from './src/Components/Homepage/logo';
 
 const App: () => React$Node = () => {
   return (
     <>
-      <SafeAreaView>
-        <View>
-          <Text>FormaZakupy Mobile app!</Text>
-        </View>
+      <SafeAreaView style={{flex: 1}}>
+        <LogoHomePage/>
       </SafeAreaView>
     </>
   );
