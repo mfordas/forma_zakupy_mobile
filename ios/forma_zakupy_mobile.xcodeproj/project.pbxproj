@@ -16,6 +16,8 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* forma_zakupy_mobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* forma_zakupy_mobileTests.m */; };
+		FB1D20BE3E004E02A26BF6FE /* Lovelo-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = B894D2E77E05455B8F4DF66A /* Lovelo-Black.otf */; };
+		B118CE1AD79246EB88B36B1F /* Lovelo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 243A8CC41A88445E8128255B /* Lovelo-Black.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		2D02E4901E0B4A5D006451C7 /* forma_zakupy_mobile-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "forma_zakupy_mobile-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		B894D2E77E05455B8F4DF66A /* Lovelo-Black.otf */ = {isa = PBXFileReference; name = "Lovelo-Black.otf"; path = "../src/fonts/Lovelo-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		243A8CC41A88445E8128255B /* Lovelo-Black.ttf */ = {isa = PBXFileReference; name = "Lovelo-Black.ttf"; path = "../src/fonts/Lovelo-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +144,7 @@
 				00E356EF1AD99517003FC87E /* forma_zakupy_mobileTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				A25DC3FB98EE420DAC68619C /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -156,6 +161,16 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		A25DC3FB98EE420DAC68619C /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				B894D2E77E05455B8F4DF66A /* Lovelo-Black.otf */,
+				243A8CC41A88445E8128255B /* Lovelo-Black.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -295,6 +310,8 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				FB1D20BE3E004E02A26BF6FE /* Lovelo-Black.otf in Resources */,
+				B118CE1AD79246EB88B36B1F /* Lovelo-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

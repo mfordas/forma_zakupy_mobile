@@ -1,16 +1,29 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import Store from '../../../Store';
+import Store from '../../Store';
+
+const removeItem = async (key) => {
+    try {
+      await AsyncStorage.removeItem(`${key}`)
+    } catch(e) {
+      // remove error
+    }
+  
+    console.log('Done.')
+  }
 
 const Menu = () => {
     const { isLogged, changeStore } = useContext(Store);
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('id');
+        removeItem('token');
+        removeItem('id');
         changeStore('isLogged', false);
         changeStore('hasCharacter', null)
         window.location.reload();
     };
+
+    
 
     return ( <div className="containerMenu">
     {!isLogged &&

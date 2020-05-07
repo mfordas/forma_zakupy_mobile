@@ -1,4 +1,5 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Redirect } from 'react-router-dom';
 import Store from '../../../Store';
 import axios from 'axios';
@@ -22,6 +23,14 @@ class Login extends React.Component {
 
   static contextType = Store;
 
+  setItem = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(`${key}`, `${value}`)
+    } catch (e) {
+      // saving error
+    }
+  };
+
   onButtonSubmit = async e => {
     e.preventDefault();
     const data = {email: this.state.email,
@@ -37,12 +46,12 @@ class Login extends React.Component {
       console.log(res.status);
 
       if(res.status === 203) {
-        localStorage.setItem('email', this.state.email);
+        this.setItem('email', this.state.email);
         this.setState({emailVerified: false});
       } else if (res.status === 200) {
         const token = res.headers["x-auth-token"];
-        localStorage.setItem('token', token);
-        localStorage.setItem('id', jwt(token)._id);
+        this.setItem('token', token);
+        this.setItem('id', jwt(token)._id);
         this.context.changeStore('isLogged', true);
         this.setState({ isLogged: true });
       } else {

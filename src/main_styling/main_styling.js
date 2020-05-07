@@ -22,6 +22,7 @@ const mainStyling = StyleSheet.create({
     marginTop: -120,
     marginRight: -170,
     alignSelf: 'center',
+    fontFamily: 'Lovelo-Black',
   },
   
   logoContainer: {
@@ -34,8 +35,6 @@ const mainStyling = StyleSheet.create({
     height: 300,
     marginTop: -120,
     resizeMode: 'center',
-    alignSelf: 'center',
-    overflow: 'hidden',
   },
 
 // body,
