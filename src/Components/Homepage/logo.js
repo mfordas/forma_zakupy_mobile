@@ -9,7 +9,7 @@ class LogoHomePage extends React.Component {
 
     render() {
         return (
-        <View style={[{flex: 1}, mainStyling.logoContainer]}>
+        <View style={[{flex: 4}, mainStyling.logoContainer]}>
             <Image style={mainStyling.logo} source={logoSrc} />
             <Text style={mainStyling.zakupy}>Zakupy</Text>
             </View>

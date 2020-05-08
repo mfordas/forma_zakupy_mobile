@@ -26,7 +26,7 @@ const mainStyling = StyleSheet.create({
   },
   
   logoContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   
@@ -37,6 +37,30 @@ const mainStyling = StyleSheet.create({
     resizeMode: 'center',
   },
 
+  containerMenu: {
+  alignSelf: 'center',
+  justifyContent: 'center',
+  flexDirection: 'row',
+},
+
+  buttonMenu: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    color: 'black',
+    fontSize: 14,
+    flex: 2,
+    margin: 10,
+    borderRadius: 20,
+  },
+
+  buttonMenuText: {
+    padding: 10,
+    textAlign: 'center',
+    fontFamily: 'Lovelo-Black',
+  }
 // body,
 // html,
 // #root {
@@ -128,31 +152,9 @@ const mainStyling = StyleSheet.create({
 //   border: 2px solid white;
 // }
 
-// .containerMenu {
-//   min-width: 20vw;
-//   max-width: 70vw;
-//   align-self: center;
-//   display: flex;
-//   justify-content: center;
-// }
 
-// .buttonMenu {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   text-align: center;
-//   border: 2px solid black;
-//   color: black;
-//   background-color: white;
-//   box-sizing: border-box;
-//   font-family: "lovelo";
-//   text-decoration: none;
-//   font-size: 14px;
-//   flex: 2;
-//   padding: 10px;
-//   margin: 10px;
-//   border-radius: 20px;
-// }
+
+
 // .buttonMenu.active {
 //   border-radius: 0;
 //   border: 2px solid white;

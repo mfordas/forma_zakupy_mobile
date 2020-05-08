@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Store from '../../Store';
+import mainStyling from '../../main_styling/main_styling';
 
 const removeItem = async (key) => {
     try {
@@ -20,29 +21,28 @@ const Menu = () => {
         removeItem('id');
         changeStore('isLogged', false);
         changeStore('hasCharacter', null)
-        window.location.reload();
     };
 
     
 
-    return ( <div className="containerMenu">
+    return ( <View style={mainStyling.containerMenu}>
     {!isLogged &&
         (
             <>
-                <NavLink className="buttonMenu" to="/home">Logowanie</NavLink>
-                <NavLink className="buttonMenu" to="/register">Rejestracja</NavLink>
+                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Logowanie</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Rejestracja</Text></TouchableOpacity>
             </>
         )
         }
     {isLogged &&
     (
         <>
-        <NavLink className="buttonMenu" to="/shoppingLists">Moje Listy zakupów</NavLink>
-        <NavLink className="buttonMenu" to="/commonShoppingLists">Wspólne listy zakupów</NavLink>
-        <NavLink className="buttonMenu" to="/logout" onClick={handleLogout}>Wyloguj</NavLink>
+        <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Moje Listy zakupów</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Wspólne listy zakupów</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Wyloguj</Text></TouchableOpacity>
         </>
     )}
-        </div>
+        </View>
     )
 
 }
