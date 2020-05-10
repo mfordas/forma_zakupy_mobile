@@ -32,13 +32,14 @@ class Login extends React.Component {
 
   onButtonSubmit = async e => {
     e.preventDefault();
+    console.log(this.state);
     const data = {email: this.state.email,
       password:this.state.password};
     delete this.state["invalidData"];
     try {
       const res = await axios({
         method: 'post',
-        url: '/api/auth',
+        url: 'http://192.168.0.38:8080/api/auth',
         data: data,
         headers: setHeaders(),
       });
@@ -75,7 +76,7 @@ class Login extends React.Component {
 
 
   render() {
-    if (this.context.isLogged) return <Redirect to="/" />;
+    // if (this.context.isLogged) return <Redirect to="/" />;
   
     return (
        
@@ -85,11 +86,11 @@ class Login extends React.Component {
           <Text style={mainStyling.p}>Witamy w programie Forma Zakupy. Jeśli jeszcze nie posiadasz konta - zarejestruj się</Text>
           </View>
           <View>
-            <TextInput  style={mainStyling.input} textContentType={'emailAddress'} onChange={text => this.setState({ email: text })}></TextInput>
+            <TextInput  style={mainStyling.input} textContentType={'emailAddress'} onChangeText={text => this.setState({ email: text })}></TextInput>
             <Text style={mainStyling.buttonMenuText}>E-mail</Text>
           </View>
           <View>
-            <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChange={text => this.setState({ password: text })}></TextInput>
+            <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChangeText={text => this.setState({ password: text })}></TextInput>
             <Text style={mainStyling.buttonMenuText}>Hasło</Text>
           </View>
           <View style={mainStyling.containerMenu}>
