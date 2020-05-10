@@ -20,7 +20,7 @@ const mainStyling = StyleSheet.create({
   zakupy: {
     fontSize: 20,
     marginTop: -120,
-    marginRight: -170,
+    marginRight: -150,
     alignSelf: 'center',
     fontFamily: 'Lovelo-Black',
   },
@@ -31,7 +31,7 @@ const mainStyling = StyleSheet.create({
   },
   
   logo: {
-    width: 300,
+    width: 270,
     height: 300,
     marginTop: -120,
     resizeMode: 'center',
@@ -54,13 +54,65 @@ const mainStyling = StyleSheet.create({
     flex: 2,
     margin: 10,
     borderRadius: 20,
+    maxWidth: 120,
   },
 
   buttonMenuText: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 1,
     textAlign: 'center',
     fontFamily: 'Lovelo-Black',
-  }
+  },
+
+  container: {
+  maxWidth: 270,
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignSelf: 'center',
+},
+
+input: {
+  width: 150,
+  borderStyle: 'solid',
+  borderBottomColor: 'black',
+  borderBottomWidth: 2,
+  textAlign: 'center',
+  fontFamily: "Lovelo-Black",
+  alignSelf: 'center',
+  paddingVertical: 0,
+},
+
+registerCard: {
+  marginVertical: 20,
+  backgroundColor: leafRightSideColor,
+  borderStyle: 'solid',
+  borderColor: 'black',
+  borderWidth: 2,
+  alignSelf: 'center',
+  flexDirection: 'column',
+},
+
+buttonRegisterCard: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderWidth: 2,
+  borderStyle: 'solid',
+  borderColor: 'black',
+  color: 'black',
+  fontSize: 14,
+  flex: 2,
+  margin: 10,
+  borderRadius: 20,
+  maxWidth: 120,
+  backgroundColor: 'white',
+},
+
+p: {
+  margin: 10,
+  alignItems: 'center',
+  fontFamily: "Lovelo-Black",
+}
+
 // body,
 // html,
 // #root {
@@ -87,25 +139,9 @@ const mainStyling = StyleSheet.create({
 //   box-sizing: inherit;
 // }
 
-// .container {
-//   max-width: 100vw;
-//   max-height: 100vh;
-//   box-sizing: border-box;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// }
 
-// .registerCard {
-//   max-width: 20vw;
-//   margin: auto;
-//   background-color: $leaf-right-side-color;
-//   border: 2px solid black;
-//   align-self: center;
-//   display: flex;
-//   flex-direction: column;
-// }
+
+
 
 // form {
 //   display: flex;
@@ -118,35 +154,11 @@ const mainStyling = StyleSheet.create({
 
 
 
-// input {
-//   border: none;
-//   background-color: $leaf-right-side-color;
-//   border-bottom: 2px solid black;
-//   text-align: center;
-//   font-family: "Lovelo";
-// }
 
-// p {
-//   margin: 10px;
-//   display:flex;
-//   align-items: center;
-// }
 
-// .button {
-//   background-color: white;
-//   border: 2px solid black;
-//   padding: 10px;
-//   margin: 10px;
-//   border-radius: 20px;
-//   box-sizing: border-box;
-//   font-family: "lovelo";
-//   text-align: center;
-//   font-size: 14px;
-//   color: black;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
+
+
+
 
 // .button:hover {
 //   border: 2px solid white;

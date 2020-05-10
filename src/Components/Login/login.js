@@ -1,12 +1,11 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Redirect } from 'react-router-dom';
-import Store from '../../../Store';
+import Store from '../../Store';
 import axios from 'axios';
 import jwt from 'jwt-decode';
-import '../../main_styling/main_styling.scss';
-import ErrorMessage from '../ReusableComponents/ErrorMessage';
+import mainStyling from '../../main_styling/main_styling';
 import setHeaders from '../../utils/setHeaders';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 class Login extends React.Component {
   constructor(props){
@@ -74,23 +73,30 @@ class Login extends React.Component {
     else { return null }
   }
 
+
   render() {
     if (this.context.isLogged) return <Redirect to="/" />;
   
     return (
-        <div className="container">
-          <div className="registerCard">
-            <p>Witamy w programie Forma Zakupy. Jeśli jeszcze nie posiadasz konta - zarejestruj się</p>
-            <form>
-              <input onChange={e => this.setState({ email: e.target.value.toLowerCase() })}></input>
-              <p>E-mail</p>
-              <input type="password" onChange={e => this.setState({ password: e.target.value })}></input>
-              <p>Hasło</p>
-              {this.loginValidate()}
-              <button className="button" onClick={this.onButtonSubmit}>Zaloguj</button>
-            </form>
-          </div>
-        </div>
+       
+        <View style={mainStyling.container}>
+          <View style={mainStyling.registerCard}>
+          <View>
+          <Text style={mainStyling.p}>Witamy w programie Forma Zakupy. Jeśli jeszcze nie posiadasz konta - zarejestruj się</Text>
+          </View>
+          <View>
+            <TextInput  style={mainStyling.input} textContentType={'emailAddress'} onChange={text => this.setState({ email: text })}></TextInput>
+            <Text style={mainStyling.buttonMenuText}>E-mail</Text>
+          </View>
+          <View>
+            <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChange={text => this.setState({ password: text })}></TextInput>
+            <Text style={mainStyling.buttonMenuText}>Hasło</Text>
+          </View>
+          <View style={mainStyling.containerMenu}>
+          <TouchableOpacity style={mainStyling.buttonRegisterCard} onPress={this.onButtonSubmit}><Text style={mainStyling.buttonMenuText}>Zaloguj</Text></TouchableOpacity>
+          </View>
+          </View>
+        </View>
     );
   }
 }
