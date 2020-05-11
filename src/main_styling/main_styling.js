@@ -7,13 +7,6 @@ const leafRightSideColor = 'rgb(142, 193, 79)';
 const leafLeftSideColor = 'rgb(119, 170, 49)';
 
 // @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
-// @font-face {
-//   font-family: "lovelo";
-//   src: url("../fonts/Lovelo-Black.eot");
-//   src: url("../fonts/Lovelo-Black.otf");
-//   src: url("../fonts/Lovelo-Black.ttf");
-// }
-
 
 const mainStyling = StyleSheet.create({
 
@@ -65,7 +58,6 @@ const mainStyling = StyleSheet.create({
   },
 
   container: {
-  maxWidth: 270,
   justifyContent: 'center',
   alignItems: 'center',
   alignSelf: 'center',
@@ -83,6 +75,7 @@ input: {
 },
 
 registerCard: {
+  maxWidth: 270,
   marginVertical: 20,
   backgroundColor: leafRightSideColor,
   borderStyle: 'solid',

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useContext } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import * as RootNavigation from '../../utils/rootNavigation';
 import Store from '../../Store';
 import mainStyling from '../../main_styling/main_styling';
 
@@ -14,6 +15,7 @@ const removeItem = async (key) => {
     console.log('Done.')
   }
 
+
 const Menu = () => {
     const { isLogged, changeStore } = useContext(Store);
     const handleLogout = () => {
@@ -23,14 +25,12 @@ const Menu = () => {
         changeStore('hasCharacter', null)
     };
 
-    
-
     return ( <View style={mainStyling.containerMenu}>
     {!isLogged &&
         (
             <>
-                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Logowanie</Text></TouchableOpacity>
-                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Rejestracja</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => RootNavigation.navigate("Login")} ><Text style={mainStyling.buttonMenuText} >Logowanie</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => RootNavigation.navigate("Register")}><Text style={mainStyling.buttonMenuText} >Rejestracja</Text></TouchableOpacity>
             </>
         )
         }

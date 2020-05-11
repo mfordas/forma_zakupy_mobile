@@ -6,11 +6,13 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import LogoHomePage from './src/Components/Homepage/logo';
 import Menu from './src/Components/Menu';
-import Login from './src/Components/Login'
+import Login from './src/Components/Login';
 
 import Context, {StoreProvider} from './src/Store';
 import setHeaders from "./src/utils/setHeaders";
 import LoginContent from './src/Components/Login';
+import Register from './src/Components/Register';
+import { navigationRef } from './src/utils/rootNavigation';
 
 const Stack = createStackNavigator();
 
@@ -42,15 +44,16 @@ const App = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <NavigationContainer ref={navigationRef}>
       <LogoHomePage />
-      {/* <Menu />  */}
-      <View style={{flex:7}}>
-      <NavigationContainer >
-          <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} options={{ headerTitle: props => <Menu {...props} /> }}/>
+      <Menu />
+      <View style={{flex: 1, flexGrow: 1}}> 
+          <Stack.Navigator >
+            <Stack.Screen name="Login" component={LoginContent} options={{headerShown: false}}/>
+            <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
           </Stack.Navigator>
+          </View>
         </NavigationContainer>
-        </View>
       </SafeAreaView>
   );
 };
