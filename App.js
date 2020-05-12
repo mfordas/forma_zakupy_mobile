@@ -24,6 +24,7 @@ const App = () => {
     (async () => {
       try {
         const response = await fetch("http://192.168.0.38:8080/api/users/me", setHeaders());
+        console.log(response);
         if (response.status === 400) {
           localStorage.removeItem("token");
           changeStore("isLogged", false);
@@ -34,8 +35,8 @@ const App = () => {
         changeStore("isLogged", true);
         changeStore("me", data);
       } catch (ex) {
-        console.error("Serwer nie odpowiada");
-        console.error("Error", ex);
+        // console.error("Serwer nie odpowiada");
+        // console.error("Error", ex);
       }
     })();
   }, [changeStore, isLogged]);
@@ -49,8 +50,12 @@ const App = () => {
       <Menu />
       <View style={{flex: 1, flexGrow: 1}}> 
           <Stack.Navigator >
+          {/* {isLogged && ( */}
+            <>
             <Stack.Screen name="Login" component={LoginContent} options={{headerShown: false}}/>
             <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
+            </>
+            {/* )} */}
           </Stack.Navigator>
           </View>
         </NavigationContainer>

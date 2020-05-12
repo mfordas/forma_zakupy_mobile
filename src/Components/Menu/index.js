@@ -39,7 +39,7 @@ const Menu = () => {
         <>
         <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Moje Listy zakupów</Text></TouchableOpacity>
                 <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Wspólne listy zakupów</Text></TouchableOpacity>
-                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Wyloguj</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => handleLogout()}><Text style={mainStyling.buttonMenuText}>Wyloguj</Text></TouchableOpacity>
         </>
     )}
         </View>

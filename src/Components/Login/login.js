@@ -1,11 +1,12 @@
 import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Store from '../../Store';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import mainStyling from '../../main_styling/main_styling';
 import setHeaders from '../../utils/setHeaders';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import ErrorMessage from '../ReusableComponents/ErrorMessage';
 
 class Login extends React.Component {
   constructor(props){
@@ -59,7 +60,7 @@ class Login extends React.Component {
       }
     }
     catch (error) {
-      console.error('Error Login:', error);
+      Alert.alert('Error', error.message);
       this.setState({ invalidData: true });
     }
   }
@@ -92,6 +93,7 @@ class Login extends React.Component {
           <View>
             <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChangeText={text => this.setState({ password: text })}></TextInput>
             <Text style={mainStyling.buttonMenuText}>Hasło</Text>
+            {this.loginValidate()}
           </View>
           <View style={mainStyling.containerMenu}>
           <TouchableOpacity style={mainStyling.buttonRegisterCard} onPress={this.onButtonSubmit}><Text style={mainStyling.buttonMenuText}>Zaloguj</Text></TouchableOpacity>

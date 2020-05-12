@@ -104,6 +104,13 @@ p: {
   margin: 10,
   alignItems: 'center',
   fontFamily: "Lovelo-Black",
+},
+
+errorMessage: {
+  fontSize: 10,
+  color: 'red',
+  fontFamily: "Lovelo-Black",
+  textAlign: 'center',
 }
 
 // body,
@@ -183,10 +190,7 @@ p: {
 //   }
 // }
 
-// .errorMessage {
-//   font-size: 0.7rem;
-//   color: red;
-// }
+
 
 // .container-shoppingList {
 //   max-width: 100vw;
