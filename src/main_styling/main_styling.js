@@ -57,6 +57,25 @@ const mainStyling = StyleSheet.create({
     fontFamily: 'Lovelo-Black',
   },
 
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    color: 'black',
+    fontSize: 14,
+    margin: 10,
+    borderRadius: 20,
+  },
+
+  buttonText: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+    fontFamily: 'Lovelo-Black',
+  },
+
   container: {
   justifyContent: 'center',
   alignItems: 'center',
@@ -101,6 +120,7 @@ buttonRegisterCard: {
 },
 
 p: {
+  fontSize: 16,
   margin: 10,
   alignItems: 'center',
   fontFamily: "Lovelo-Black",
@@ -111,176 +131,82 @@ errorMessage: {
   color: 'red',
   fontFamily: "Lovelo-Black",
   textAlign: 'center',
+},
+
+containerShoppingList: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+containerShoppingLists: {
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+},
+
+progressBar: {
+  backgroundColor: 'white',
+  borderRadius: 20,
+  fontFamily: "Lovelo-Black",
+  textAlign: 'center',
+  fontSize: 14,
+  color: 'black',
+  width: 100,
+},
+
+progressBarContainer: {
+  backgroundColor: 'white',
+  borderWidth: 2,
+  borderStyle: 'solid',
+  borderColor: 'black',
+  padding: 0,
+  margin: 0,
+  borderRadius: 20,
+  width: 100,
+},
+
+containerProduct: {
+  width: 80,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+productName: {
+  flex: 3,
+  justifyContent: "flex-start",
+},
+
+productNumber: {
+  flex: 1,
+
+  
+},
+
+productNumberP: {
+  textAlign: 'auto',
+},
+
+containerAddShoppingList: {
+  alignItems: 'center',
+},
+
+containerAddShoppingListInput: {
+  backgroundColor: 'white',
+},
+
+horizontalFormContainer: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+},
+
+productsProposalText: {
+  fontSize: 12,
+  fontFamily: 'Lovelo-Black',
+  margin: 10,
+  alignItems: 'center',
 }
-
-// body,
-// html,
-// #root {
-//   box-sizing: border-box;
-//   margin: 0;
-//   padding: 0;
-//   background-color: white;
-//   display: flex;
-//   justify-content: center;
-//   align-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   min-width: 100vw;
-//   min-height: 100vh;
-//   font-family: "lovelo";
-// }
-
-// a,
-// link {
-//   text-decoration: none;
-// }
-
-// * {
-//   box-sizing: inherit;
-// }
-
-
-
-
-
-// form {
-//   display: flex;
-//   flex-direction: column;
-//   text-align: center;
-//   width: 60%;
-//   align-self: center;
-//   align-items: center;
-// }
-
-
-
-
-
-
-
-
-
-// .button:hover {
-//   border: 2px solid white;
-// }
-
-
-
-
-// .buttonMenu.active {
-//   border-radius: 0;
-//   border: 2px solid white;
-//   border-bottom: 2px solid black;
-// }
-
-// .buttonMenu:hover {
-//   border: 2px solid white;
-// }
-
-// .button-container {
-//   display: flex;
-//   flex-direction: column;
-//   text-align: center;
-//   margin-bottom: 7px;
-//   p{
-//     margin: auto;
-   
-//     max-width: 50px;
-//     font-size: xx-small;
-//   }
-// }
-
-
-
-// .container-shoppingList {
-//   max-width: 100vw;
-//   max-height: 100vh;
-//   box-sizing: border-box;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .container-shoppingLists,
-// .container-products {
-//   max-width: 100vw;
-//   box-sizing: border-box;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-// }
-
-// .container-product {
-//   width: 80%;
-//   box-sizing: border-box;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .product-name {
-//   flex: 3;
-//   justify-content: start;
-// }
-// .product-number {
-//   flex: 1;
-//   justify-self: center;
-
-//   .p{
-//     text-justify: auto;
-//   }
-// }
-
-// .container-add-shoppingList {
-//   width: auto;
-//   max-width: 75vw;
-//   max-height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   padding-bottom: .2rem;
-
-//   input {
-//     background-color: white;
-//   }
-// }
-
-// .progress-bar {
-//   background-color: white;
-//   border-radius: 20px;
-//   box-sizing: border-box;
-//   transition: 0.7s ease-in-out;
-//   font-family: "lovelo";
-//   text-align: center;
-//   font-size: 14px;
-//   color: black;
-//   width: 100%;
-// }
-// .progress-bar-container {
-//   background-color: white;
-//   border: 2px solid black;
-//   padding: 0px;
-//   margin: 0px;
-//   border-radius: 20px;
-//   box-sizing: border-box;
-//   transition: 0.3s ease-in-out;
-//   width: 100%;
-// }
-
-// input::-webkit-calendar-picker-indicator {
-//   display: none;
-// }
-
-// .horizontalFormContainer {
-//   display: flex;
-//   flex-direction: row;
-//   width: 100%;
-//   justify-content: space-between;
-//   align-items: center;
-// }
-
 
 })
 

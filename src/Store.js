@@ -1,18 +1,23 @@
 import React from "react";
 
-import {getValue} from './utils/asyncStorageFunctions'
+import {getValue} from './utils/asyncStorageFunctions';
 
 const Context = React.createContext();
 
 export class StoreProvider extends React.Component {
   state = {
-    isLogged: getValue("token") ? true : false,
+    isLogged: false,
     me: null
   };
 
   changeStore = (name, value) => {
     this.setState({ [name]: value });
   };
+
+  async componentDidMount() {
+    const tokenCheck = await getValue("token") ? true : false
+    return this.setState({isLogged: tokenCheck});
+  }
 
   render() {
     return (
