@@ -174,6 +174,7 @@ progressBarContainer: {
 progressBarText: {
   fontFamily: "Lovelo-Black",
   textAlign: 'center',
+  maxHeight: 18,
 },
 
 containerProduct: {

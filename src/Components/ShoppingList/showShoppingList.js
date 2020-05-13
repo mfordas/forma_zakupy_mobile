@@ -125,9 +125,7 @@ class ShowShoppingList extends React.Component {
                 {this.state.addProductActive ? <AddProduct onClick={this.showShoppingList} id={this.state.idShoppingList} /> : null}
                 {this.state.addUserActive ? <AddUserToShoppingList onClick={this.openNewUserForm} id={this.state.idShoppingList} /> : null}
                 {this.state.showShoppingListMembers ? <ShowShoppingListMembers onClick={this.showShoppingList} id={this.state.idShoppingList} membersIds={this.state.members} /> : null}
-                <View>
                 <ProgressBar allProducts={this.state.products} onChange={this.showShoppingList} />
-                </View>
                 {this.state.products.map(product =>
                     <View key={product._id} style={mainStyling.containerProduct}>
                         <TouchableOpacity style={mainStyling.productName} onPress={() => this.crossProduct(product.bought, product._id)}>
