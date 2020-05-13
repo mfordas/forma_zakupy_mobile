@@ -1,7 +1,8 @@
 import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import setHeaders from '../../utils/setHeaders';
-import '../../main_styling/main_styling.scss';
+import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingListMembers extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ShowShoppingListMembers extends React.Component {
 
     getMembersIds = async () => {
         let members = await axios({
-            url: `/api/shoppingLists/${this.state.shoppingListId}/members`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.shoppingListId}/members`,
             method: "GET"
         });
         this.setState({ membersIds: members.data });
@@ -24,7 +25,7 @@ class ShowShoppingListMembers extends React.Component {
 
     getMembersData = async () => {
         let membersArray = await Promise.all(this.state.membersIds.map(async memberId => (await axios({
-            url: `/api/users/byId/${memberId}`,
+            url: `http://192.168.0.38:8080/api/users/byId/${memberId}`,
             method: "GET",
             headers: setHeaders()
         }).then(res => res.data))));
@@ -33,7 +34,7 @@ class ShowShoppingListMembers extends React.Component {
 
     deleteMemberFromShoppingList = async (memberId) => {
         await axios({
-            url: `/api/users/${memberId}/shoppingList/${this.state.shoppingListId}`,
+            url: `http://192.168.0.38:8080/api/users/${memberId}/shoppingList/${this.state.shoppingListId}`,
             method: 'PUT',
             headers: setHeaders()
         }).then(res => {
@@ -63,16 +64,18 @@ class ShowShoppingListMembers extends React.Component {
 
     render() {
         return (
-            <div className="container-products">
+            <View style={mainStyling.containerProduct}>
                 {this.state.members.map(member => {
-                    return <div key={member._id} className="container-shoppingList">
-                        <div className="shoppinglist-name">
-                            <p >{member.name}</p>
-                        </div>
-                        <button className="button" onClick={() => this.deleteMemberFromShoppingList(member._id)}>Usuń</button>
-                    </div>
+                    return <View key={member._id} style={mainStyling.containerShoppingList}>
+                        <View >
+                            <Text style={mainStyling.p} >{member.name}</Text>
+                        </View>
+                        <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMemberFromShoppingList(member._id)}>
+                            <Text style={mainStyling.p}>Usuń</Text>
+                        </TouchableOpacity>
+                    </View>
                 })}
-            </div>
+            </View>
         );
     }
 }

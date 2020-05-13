@@ -1,7 +1,8 @@
 import React from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import setHeaders from '../../utils/setHeaders';
-import '../../main_styling/main_styling.scss';
+import mainStyling from '../../main_styling/main_styling';
 
 class DeleteProductFromShoppingList extends React.Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class DeleteProductFromShoppingList extends React.Component {
         const id = this.state.idShoppingList;
         const idProd = this.state.idProduct;
         await axios({
-            url: `/api/shoppingLists/${id}/product/${idProd}`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${idProd}`,
             method: "DELETE",
             headers: setHeaders()
         }).then(res => {
@@ -39,7 +40,7 @@ class DeleteProductFromShoppingList extends React.Component {
 
     render() {
         return (
-                <button className="button" onClick={this.deleteProduct}>Usuń</button>
+                <TouchableOpacity style={mainStyling.button} onPress={this.deleteProduct}><Text style={mainStyling.p}>Usuń</Text></TouchableOpacity>
         );
     }
 }

@@ -1,14 +1,15 @@
 import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { TiArrowSync, TiUserAdd, TiArrowBack, TiGroup, TiPlus } from 'react-icons/ti';
+import * as RootNavigation from '../../utils/rootNavigation';
 import AddProduct from './addProduct';
 import setHeaders from '../../utils/setHeaders';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
 import AddUserToShoppingList from './addUserToShoppingList';
 import ProgressBar from './progressBar';
 import ShowShoppingListMembers from './showShoppingListMembers'
-import '../../main_styling/main_styling.scss';
+import mainStyling from '../../main_styling/main_styling';
+
 
 class ShowShoppingList extends React.Component {
     constructor(props) {
@@ -16,9 +17,9 @@ class ShowShoppingList extends React.Component {
 
         this.state = {
             products: [],
-            name: this.props.location.listInfo.name,
-            idShoppingList: this.props.location.listInfo.id,
-            members: this.props.location.listInfo.members_id,
+            name: this.props.listInfo.name,
+            idShoppingList: this.props.listInfo.id,
+            members: this.props.listInfo.members_id,
             addProductActive: false,
             addUserActive: false,
             showShoppingListMembers: false
@@ -27,7 +28,7 @@ class ShowShoppingList extends React.Component {
 
     showShoppingList = async () => {
         let products = await axios({
-            url: `/api/shoppingLists/${this.state.idShoppingList}/products`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.idShoppingList}/products`,
             method: "GET"
         });
         const productsArray = products.data;
@@ -37,7 +38,7 @@ class ShowShoppingList extends React.Component {
     crossProduct = async (currentStatus, idProduct) => {
         const id = this.state.idShoppingList;
         await axios({
-            url: `/api/shoppingLists/${id}/product/${idProduct}`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${idProduct}`,
             method: 'PUT',
             headers: setHeaders(),
             data: {
@@ -61,7 +62,7 @@ class ShowShoppingList extends React.Component {
         const id = this.state.idShoppingList;
         this.state.products.map(async product => {
             await axios({
-                url: `/api/shoppingLists/${id}/product/${product._id}`,
+                url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${product._id}`,
                 method: 'PUT',
                 headers: setHeaders(),
                 data: {
@@ -98,47 +99,49 @@ class ShowShoppingList extends React.Component {
 
     render() {
         return (
-            <div className="container-products">
-                <div className="containerMenu">
-                    <div className="button-container">
-                        <button className="button" onClick={this.openNewProductForm}><TiPlus /></button>
-                        <p>Dodaj produkt</p>
-                    </div>
-                    <div className="button-container">
-                        <button className="button" onClick={this.openNewUserForm}><TiUserAdd /></button>
-                        <p>Dodaj osobę</p>
-                    </div>
-                    <div className="button-container">
-                        <button className="button" onClick={this.showShoppingListMembers}><TiGroup /></button>
-                        <p>Zobacz osoby</p>
-                    </div>
-                    <div className="button-container">
-                        <button className="button" onClick={this.resetShoppingList}><TiArrowSync /></button>
-                        <p>Reset listy</p>
-                    </div>
-                    <div className="button-container">
-                        <Link className="button" to={this.state.members.length > 1 ? `/commonShoppingLists` : `/shoppingLists`}><TiArrowBack /></Link>
-                        <p>Powrót</p>
-                    </div>
-                </div>
+            <View style={mainStyling.containerProducts}>
+                <View style={mainStyling.containerMenu}>
+                    <View style={mainStyling.buttonContainer} className="button-container">
+        <TouchableOpacity style={mainStyling.button} onPress={this.openNewProductForm}><Text>+</Text></TouchableOpacity>
+                        <Text style={mainStyling.buttonContainerP}>Dodaj produkt</Text>
+                    </View>
+                    <View style={mainStyling.buttonContainer}>
+                        <TouchableOpacity style={mainStyling.button} onPress={this.openNewUserForm}><Text>+</Text></TouchableOpacity>
+                        <Text style={mainStyling.buttonContainerP}>Dodaj osobę</Text>
+                    </View>
+                    <View style={mainStyling.buttonContainer} >
+                        <TouchableOpacity style={mainStyling.button} onPress={this.showShoppingListMembers}><Text>+</Text></TouchableOpacity>
+                        <Text style={mainStyling.buttonContainerP}>Zobacz osoby</Text>
+                    </View>
+                    <View style={mainStyling.buttonContainer} >
+                        <TouchableOpacity style={mainStyling.button} onPress={this.resetShoppingList}><Text>+</Text></TouchableOpacity>
+                        <Text style={mainStyling.buttonContainerP}>Reset listy</Text>
+                    </View>
+                    <View style={mainStyling.buttonContainer}>
+                        <TouchableOpacity style={mainStyling.button} ><Text>+</Text></TouchableOpacity>
+                        <Text style={mainStyling.buttonContainerP}>Powrót</Text>
+                    </View>
+                </View>
                 {this.state.addProductActive ? <AddProduct onClick={this.showShoppingList} id={this.state.idShoppingList} /> : null}
                 {this.state.addUserActive ? <AddUserToShoppingList onClick={this.openNewUserForm} id={this.state.idShoppingList} /> : null}
                 {this.state.showShoppingListMembers ? <ShowShoppingListMembers onClick={this.showShoppingList} id={this.state.idShoppingList} membersIds={this.state.members} /> : null}
+                <View>
                 <ProgressBar allProducts={this.state.products} onChange={this.showShoppingList} />
+                </View>
                 {this.state.products.map(product =>
-                    <div key={product._id} className="container-product">
-                        <div className="product-name" onClick={() => this.crossProduct(product.bought, product._id)}>
-                            <p style={product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null}>{product.name}</p>
-                        </div>
-                        <div className="product-number">
-                            <p style={product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null}>{product.amount}</p>
-                        </div>
-                        <div className="product-number">
-                            <p style={product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null}>{product.unit}</p>
-                        </div>
+                    <View key={product._id} style={mainStyling.containerProduct}>
+                        <TouchableOpacity style={mainStyling.productName} onPress={() => this.crossProduct(product.bought, product._id)}>
+                            <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.name}</Text>
+                        </TouchableOpacity>
+                        <View style={mainStyling.productNumber}>
+                            <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.amount}</Text>
+                        </View>
+                        <View style={mainStyling.productNumber} >
+                            <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.unit}</Text>
+                        </View>
                         <DeleteProductFromShoppingList onClick={this.showShoppingList} id={this.state.idShoppingList} idProd={product._id} />
-                    </div>)}
-            </div>
+                    </View>)}
+            </View>
         );
     }
 }

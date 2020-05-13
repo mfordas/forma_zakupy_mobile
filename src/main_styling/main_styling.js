@@ -145,17 +145,22 @@ containerShoppingLists: {
   flexDirection: 'column',
 },
 
+containerProducts: {
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+},
+
 progressBar: {
   backgroundColor: 'white',
   borderRadius: 20,
-  fontFamily: "Lovelo-Black",
   textAlign: 'center',
-  fontSize: 14,
   color: 'black',
-  width: 100,
+  width: 300,
 },
 
 progressBarContainer: {
+  justifyContent: 'center',
   backgroundColor: 'white',
   borderWidth: 2,
   borderStyle: 'solid',
@@ -163,11 +168,17 @@ progressBarContainer: {
   padding: 0,
   margin: 0,
   borderRadius: 20,
-  width: 100,
+  width: 300,
+},
+
+progressBarText: {
+  fontFamily: "Lovelo-Black",
+  textAlign: 'center',
 },
 
 containerProduct: {
-  width: 80,
+  flexDirection: 'row',
+  width: 330,
   justifyContent: 'center',
   alignItems: 'center',
 },
@@ -179,8 +190,6 @@ productName: {
 
 productNumber: {
   flex: 1,
-
-  
 },
 
 productNumberP: {
@@ -206,6 +215,20 @@ productsProposalText: {
   fontFamily: 'Lovelo-Black',
   margin: 10,
   alignItems: 'center',
+},
+
+buttonContainer: {
+  flexDirection: 'column',
+  textAlign: 'center',
+  marginBottom: 7,
+},
+
+buttonContainerP: {
+  margin: 'auto',
+  maxWidth: 50,
+  fontSize: 10,
+  textAlign: 'center',
+  fontFamily: 'Lovelo-Black'
 }
 
 })

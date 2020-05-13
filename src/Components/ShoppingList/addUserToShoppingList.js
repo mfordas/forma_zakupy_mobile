@@ -1,7 +1,8 @@
 import React from 'react';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import axios from 'axios';
 import setHeaders from '../../utils/setHeaders';
-import '../../main_styling/main_styling.scss';
+import mainStyling from '../../main_styling/main_styling';
 
 class AddUserToShoppingList extends React.Component {
     constructor(props) {
@@ -16,10 +17,9 @@ class AddUserToShoppingList extends React.Component {
     }
 
     addUserToList = async (idUser) => {
-        console.log(this.state.idUser);
         const id = this.state.idShoppingList;
         await axios({
-            url: `/api/shoppingLists/${id}/commonShoppingList/${idUser}`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/commonShoppingList/${idUser}`,
             method: 'PUT',
             headers: setHeaders()
 
@@ -40,10 +40,10 @@ class AddUserToShoppingList extends React.Component {
     };
 
 
-    showUsersProposals = async (e) => {
-        if (e.target.value.length >= 3) {
+    showUsersProposals = async (text) => {
+        if (text.length >= 3) {
             let usersList = await axios({
-                url: `/api/users/${e.target.value.toLowerCase()}`,
+                url: `http://192.168.0.38:8080/api/users/${text.toLowerCase()}`,
                 method: 'GET',
                 headers: setHeaders(),
                 data: {
@@ -57,17 +57,22 @@ class AddUserToShoppingList extends React.Component {
     render() {
         return (
             <>
-                <div className="container-add-shoppingList">
-                    <div className="horizontalFormContainer">
-                    <p>Nazwa</p>
-                    <input onChange={e => {
-                        this.showUsersProposals(e);
-                    }} />
-                </div>
-                </div>
-                <div>
-                    {this.state.usersProposals.map(user => <div className="horizontalFormContainer" key={user._id} id={user._id} value={user.name}>{user.name}<button className="button" onClick={() => this.addUserToList(user._id)}>Dodaj</button></div>)}
-                </div>
+                <View style={mainStyling.containerAddShoppingList}>
+                    <View style={mainStyling.horizontalFormContainer}>
+                    <Text style={mainStyling.p}>Nazwa</Text>
+                    <TextInput style={mainStyling.input} onChangeText={text => {
+                        this.showUsersProposals(text);
+                    }}></TextInput>
+                </View>
+                </View>
+                <View>
+                    {this.state.usersProposals.map(user => <View style={mainStyling.horizontalFormContainer} key={user._id} id={user._id} value={user.name}>
+                        <Text style={mainStyling.p}>{user.name}</Text>
+                        <TouchableOpacity style={mainStyling.button} onPress={() => this.addUserToList(user._id)}>
+                        <Text style={mainStyling.p}>Dodaj</Text>
+                        </TouchableOpacity>
+                        </View>)}
+                </View>
             </>
         );
     }

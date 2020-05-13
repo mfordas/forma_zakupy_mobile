@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import mainStyling from '../../main_styling/main_styling';
 
 class ProgressBar extends React.Component {
@@ -63,7 +63,7 @@ class ProgressBar extends React.Component {
     render() {
         return (
             <View style={mainStyling.progressBarContainer}>
-                <View style={mainStyling.progressBar} style={{backgroundColor:this.state.backgroundColor, width: this.state.width}} >{this.state.percentOfCompletedProducts}%</View>
+                <View style={[mainStyling.progressBar, {backgroundColor:this.state.backgroundColor, width: this.state.width}]} ><Text style={mainStyling.progressBarText}>{this.state.percentOfCompletedProducts}</Text></View>
             </View>
         );
     };

@@ -1,7 +1,9 @@
 import React from 'react';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import axios from 'axios';
 import setHeaders from '../../utils/setHeaders';
-import '../../main_styling/main_styling.scss';
+import {getValue} from '../../utils/asyncStorageFunctions';
+import mainStyling from '../../main_styling/main_styling';
 
 class AddNewShoppingList extends React.Component {
     constructor(props) {
@@ -16,9 +18,9 @@ class AddNewShoppingList extends React.Component {
 
 
     addShoppingList = async () => {
-        const id = localStorage.getItem('id');
+        const id = await getValue('id');
         await axios({
-            url: `api/shoppingLists/${id}/shoppingList`,
+            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingList`,
             method: 'POST',
             headers: setHeaders(),
             data: {
@@ -45,13 +47,15 @@ class AddNewShoppingList extends React.Component {
 
     render() {
         return (
-                <div className="container-add-shoppingList">
-                    <div className="horizontalFormContainer">
-                <p>Nazwa</p>
-                <input onChange={e => this.setState({ shoppingListName: e.target.value })}></input>
-                </div>
-                <button className="button" onClick={this.addShoppingList}>Dodaj</button>
-                </div>
+                <View style={mainStyling.containerAddShoppingList}>
+                    <View style={mainStyling.horizontalFormContainer}>
+                <Text style={mainStyling.p}>Nazwa</Text>
+                <TextInput  style={mainStyling.input} onChangeText={text => 
+                    this.setState({ shoppingListName: text })}>
+                    </TextInput>
+                </View>
+                <TouchableOpacity style={mainStyling.button} onPress={this.addShoppingList}><Text style={mainStyling.p}>Dodaj</Text></TouchableOpacity>
+                </View>
         );
     }
 }
