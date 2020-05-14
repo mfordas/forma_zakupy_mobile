@@ -120,7 +120,7 @@ buttonRegisterCard: {
 },
 
 p: {
-  fontSize: 16,
+  fontSize: 14,
   margin: 10,
   alignItems: 'center',
   fontFamily: "Lovelo-Black",
@@ -175,6 +175,7 @@ progressBarText: {
   fontFamily: "Lovelo-Black",
   textAlign: 'center',
   maxHeight: 18,
+  minWidth: 30,
 },
 
 containerProduct: {
@@ -221,6 +222,7 @@ productsProposalText: {
 buttonContainer: {
   flexDirection: 'column',
   textAlign: 'center',
+  alignItems: 'center',
   marginBottom: 7,
 },
 
@@ -230,6 +232,12 @@ buttonContainerP: {
   fontSize: 10,
   textAlign: 'center',
   fontFamily: 'Lovelo-Black'
+},
+
+icon: {
+  width: 14,
+  height: 14,
+  margin: 10,
 }
 
 })

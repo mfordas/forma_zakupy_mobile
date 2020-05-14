@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
-import * as RootNavigation from '../../utils/rootNavigation';
 import AddProduct from './addProduct';
 import setHeaders from '../../utils/setHeaders';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
@@ -9,6 +8,11 @@ import AddUserToShoppingList from './addUserToShoppingList';
 import ProgressBar from './progressBar';
 import ShowShoppingListMembers from './showShoppingListMembers'
 import mainStyling from '../../main_styling/main_styling';
+import arrowBackSrc from "../../img/iconfinder_arrow-back_216437.png";
+import arrowSyncSrc from "../../img/iconfinder_arrow-sync_216096.png";
+import groupSrc from "../../img/iconfinder_group_216232.png";
+import plusSrc from "../../img/iconfinder_plus_216373.png";
+import addUserSrc from "../../img/iconfinder_user-add_216490.png";
 
 
 class ShowShoppingList extends React.Component {
@@ -102,23 +106,23 @@ class ShowShoppingList extends React.Component {
             <View style={mainStyling.containerProducts}>
                 <View style={mainStyling.containerMenu}>
                     <View style={mainStyling.buttonContainer} className="button-container">
-        <TouchableOpacity style={mainStyling.button} onPress={this.openNewProductForm}><Text>+</Text></TouchableOpacity>
+        <TouchableOpacity style={mainStyling.button} onPress={this.openNewProductForm}><Image style={mainStyling.icon} source={plusSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Dodaj produkt</Text>
                     </View>
                     <View style={mainStyling.buttonContainer}>
-                        <TouchableOpacity style={mainStyling.button} onPress={this.openNewUserForm}><Text>+</Text></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} onPress={this.openNewUserForm}><Image style={mainStyling.icon} source={addUserSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Dodaj osobę</Text>
                     </View>
                     <View style={mainStyling.buttonContainer} >
-                        <TouchableOpacity style={mainStyling.button} onPress={this.showShoppingListMembers}><Text>+</Text></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} onPress={this.showShoppingListMembers}><Image style={mainStyling.icon} source={groupSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Zobacz osoby</Text>
                     </View>
                     <View style={mainStyling.buttonContainer} >
-                        <TouchableOpacity style={mainStyling.button} onPress={this.resetShoppingList}><Text>+</Text></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} onPress={this.resetShoppingList}><Image style={mainStyling.icon} source={arrowSyncSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Reset listy</Text>
                     </View>
                     <View style={mainStyling.buttonContainer}>
-                        <TouchableOpacity style={mainStyling.button} ><Text>+</Text></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} ><Image style={mainStyling.icon} source={arrowBackSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Powrót</Text>
                     </View>
                 </View>

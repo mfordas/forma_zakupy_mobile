@@ -30,7 +30,6 @@ class ShoppingListContent extends React.Component {
 
     async componentDidMount() {
         await this.getShoppingLists();
-        console.log(this.state.shoppingLists);
     }
 
 

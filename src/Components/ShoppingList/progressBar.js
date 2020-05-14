@@ -31,7 +31,6 @@ class ProgressBar extends React.Component {
         } else {
             this.setState({ percentOfCompletedProducts: percentage });
             this.stylingChange();
-            console.log(this.state);
             this.animatedProgressBar();
         }
     };
