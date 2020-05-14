@@ -93,8 +93,15 @@ input: {
   paddingVertical: 0,
 },
 
+registerCardText: {
+  paddingVertical: 2,
+  paddingHorizontal: 10,
+  textAlign: 'center',
+  fontFamily: 'Lovelo-Black',
+},
+
 registerCard: {
-  maxWidth: 270,
+  maxWidth: 300,
   marginVertical: 20,
   backgroundColor: leafRightSideColor,
   borderStyle: 'solid',
@@ -174,7 +181,7 @@ progressBarContainer: {
 progressBarText: {
   fontFamily: "Lovelo-Black",
   textAlign: 'center',
-  maxHeight: 18,
+  maxHeight: 17,
   minWidth: 30,
 },
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Store from '../../Store';
 import axios from 'axios';
@@ -77,10 +77,9 @@ class Login extends React.Component {
 
 
   render() {
-    // if (this.context.isLogged) return <Redirect to="/" />;
   
     return (
-       
+       <ScrollView>
         <View style={mainStyling.container}>
           <View style={mainStyling.registerCard}>
           <View>
@@ -88,11 +87,11 @@ class Login extends React.Component {
           </View>
           <View>
             <TextInput  style={mainStyling.input} textContentType={'emailAddress'} onChangeText={text => this.setState({ email: text })}></TextInput>
-            <Text style={mainStyling.buttonMenuText}>E-mail</Text>
+            <Text style={mainStyling.registerCardText}>E-mail</Text>
           </View>
           <View>
             <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChangeText={text => this.setState({ password: text })}></TextInput>
-            <Text style={mainStyling.buttonMenuText}>Hasło</Text>
+            <Text style={mainStyling.registerCardText}>Hasło</Text>
             {this.loginValidate()}
           </View>
           <View style={mainStyling.containerMenu}>
@@ -100,6 +99,7 @@ class Login extends React.Component {
           </View>
           </View>
         </View>
+      </ScrollView>
     );
   }
 }

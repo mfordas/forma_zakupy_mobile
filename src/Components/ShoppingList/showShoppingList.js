@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import axios from 'axios';
-import AddProduct from './addProduct';
+
+import * as RootNavigation from '../../utils/rootNavigation';
 import setHeaders from '../../utils/setHeaders';
+import AddProduct from './addProduct';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
 import AddUserToShoppingList from './addUserToShoppingList';
 import ProgressBar from './progressBar';
-import ShowShoppingListMembers from './showShoppingListMembers'
+import ShowShoppingListMembers from './showShoppingListMembers';
+
 import mainStyling from '../../main_styling/main_styling';
 import arrowBackSrc from "../../img/iconfinder_arrow-back_216437.png";
 import arrowSyncSrc from "../../img/iconfinder_arrow-sync_216096.png";
@@ -97,6 +100,11 @@ class ShowShoppingList extends React.Component {
         this.setState({ showShoppingListMembers: !this.state.showShoppingListMembers, addProductActive: false, addUserActive: false });
     }
 
+    backButtonHandle = () => {
+        const previousScreen = this.state.members.length === 1 ? "PrivateShoppingLists" : "CommonShoppingLists";
+        RootNavigation.navigate(previousScreen);
+    }
+
     componentDidMount() {
         this.showShoppingList();
     }
@@ -123,7 +131,7 @@ class ShowShoppingList extends React.Component {
                         <Text style={mainStyling.buttonContainerP}>Reset listy</Text>
                     </View>
                     <View style={mainStyling.buttonContainer}>
-                        <TouchableOpacity style={mainStyling.button} ><Image style={mainStyling.icon} source={arrowBackSrc} /></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} onPress={() => this.backButtonHandle()}><Image style={mainStyling.icon} source={arrowBackSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Powrót</Text>
                     </View>
                 </View>
