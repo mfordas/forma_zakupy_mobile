@@ -70,7 +70,7 @@ const mainStyling = StyleSheet.create({
   },
 
   buttonText: {
-    paddingVertical: 10,
+    paddingVertical: 5,
     paddingHorizontal: 10,
     textAlign: 'center',
     fontFamily: 'Lovelo-Black',

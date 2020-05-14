@@ -76,7 +76,6 @@ class Register extends React.Component {
 
   onButtonSubmit = async e => {
     e.preventDefault();
-    console.log(this.state);
     this.setState({ emailTaken: false })
     await this.checkEmail();
     this.nameValidate(e);

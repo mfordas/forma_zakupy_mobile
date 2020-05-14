@@ -40,7 +40,7 @@ class DeleteProductFromShoppingList extends React.Component {
 
     render() {
         return (
-                <TouchableOpacity style={mainStyling.button} onPress={this.deleteProduct}><Text style={mainStyling.p}>Usuń</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.button} onPress={this.deleteProduct}><Text style={mainStyling.buttonText}>Usuń</Text></TouchableOpacity>
         );
     }
 }

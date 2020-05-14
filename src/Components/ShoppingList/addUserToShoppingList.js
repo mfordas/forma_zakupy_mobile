@@ -67,9 +67,9 @@ class AddUserToShoppingList extends React.Component {
                 </View>
                 <View>
                     {this.state.usersProposals.map(user => <View style={mainStyling.horizontalFormContainer} key={user._id} id={user._id} value={user.name}>
-                        <Text style={mainStyling.p}>{user.name}</Text>
+                        <Text style={mainStyling.buttonText}>{user.name}</Text>
                         <TouchableOpacity style={mainStyling.button} onPress={() => this.addUserToList(user._id)}>
-                        <Text style={mainStyling.p}>Dodaj</Text>
+                        <Text style={mainStyling.buttonText}>Dodaj</Text>
                         </TouchableOpacity>
                         </View>)}
                 </View>

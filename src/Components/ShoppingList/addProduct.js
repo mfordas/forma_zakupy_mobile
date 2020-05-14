@@ -85,15 +85,6 @@ class AddProduct extends React.Component {
                 <Picker
                 selectedValue={this.state.productUnit}
                 style={{height: 50, width: 100}}
-                itemStyle={{alignItems: 'center',
-                justifyContent: 'center',
-                borderWidth: 2,
-                borderStyle: 'solid',
-                borderColor: 'black',
-                color: 'black',
-                fontSize: 14,
-                margin: 10,
-                borderRadius: 20,}}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setState({ productUnit: itemValue })
                 }>
@@ -104,7 +95,7 @@ class AddProduct extends React.Component {
                 <Picker.Item label="szt" value="szt" />
               </Picker>
                 </View>
-                <TouchableOpacity style={mainStyling.button} onPress={this.addProductToList}><Text style={mainStyling.p}>Dodaj</Text></TouchableOpacity>
+                <TouchableOpacity onPress={this.addProductToList}><Text style={mainStyling.buttonText}>Dodaj</Text></TouchableOpacity>
             </View>
         );
     }

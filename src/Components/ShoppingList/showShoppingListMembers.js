@@ -71,7 +71,7 @@ class ShowShoppingListMembers extends React.Component {
                             <Text style={mainStyling.p} >{member.name}</Text>
                         </View>
                         <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMemberFromShoppingList(member._id)}>
-                            <Text style={mainStyling.p}>Usuń</Text>
+                            <Text style={mainStyling.buttonText}>Usuń</Text>
                         </TouchableOpacity>
                     </View>
                 })}

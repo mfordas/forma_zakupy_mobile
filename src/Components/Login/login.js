@@ -33,7 +33,6 @@ class Login extends React.Component {
 
   onButtonSubmit = async e => {
     e.preventDefault();
-    console.log(this.state);
     const data = {email: this.state.email,
       password:this.state.password};
     delete this.state["invalidData"];

@@ -54,7 +54,7 @@ class AddNewShoppingList extends React.Component {
                     this.setState({ shoppingListName: text })}>
                     </TextInput>
                 </View>
-                <TouchableOpacity style={mainStyling.button} onPress={this.addShoppingList}><Text style={mainStyling.p}>Dodaj</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.button} onPress={this.addShoppingList}><Text style={mainStyling.buttonText}>Dodaj</Text></TouchableOpacity>
                 </View>
         );
     }
