@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import axios from 'axios';
 import AddProduct from './addProduct';
 import setHeaders from '../../utils/setHeaders';
@@ -103,6 +103,7 @@ class ShowShoppingList extends React.Component {
 
     render() {
         return (
+            <ScrollView>
             <View style={mainStyling.containerProducts}>
                 <View style={mainStyling.containerMenu}>
                     <View style={mainStyling.buttonContainer} className="button-container">
@@ -144,6 +145,7 @@ class ShowShoppingList extends React.Component {
                         <DeleteProductFromShoppingList onClick={this.showShoppingList} id={this.state.idShoppingList} idProd={product._id} />
                     </View>)}
             </View>
+            </ScrollView>
         );
     }
 }

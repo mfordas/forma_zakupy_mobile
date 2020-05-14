@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import axios from 'axios';
 import AddNewShoppingList from './addNewShoppingList';
 import DeleteShoppingList from './deleteShoppingList';
@@ -42,6 +42,7 @@ class ShowShoppingLists extends React.Component {
 
     createListOfShoppingLists = (type) => {
         return  this.state.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
+        <ScrollView>
             <View key={list._id} style={mainStyling.containerShoppingList}>
                 <View >
                     <Text style={mainStyling.p}>{list.name}</Text>
@@ -55,7 +56,7 @@ class ShowShoppingLists extends React.Component {
                 </TouchableOpacity>
                 </View>
                 <DeleteShoppingList onClick={this.getShoppingLists} id={list._id}/>
-            </View> : null)
+            </View></ScrollView> : null)
     }
 
     componentDidMount() {
