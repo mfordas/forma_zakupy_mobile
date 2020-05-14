@@ -1,23 +1,24 @@
 import React, { useEffect, useContext } from 'react';
 import 'react-native-gesture-handler';
-import {SafeAreaView, View, Text} from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
 import LogoHomePage from './src/Components/Homepage/logo';
 import Menu from './src/Components/Menu';
-import Login from './src/Components/Login';
+import LoginContent from './src/Components/Login';
+import Register from './src/Components/Register';
+import ShoppingListContent from './src/Components/ShoppingList';
 
 import Context, {StoreProvider} from './src/Store';
 import setHeaders from "./src/utils/setHeaders";
-import LoginContent from './src/Components/Login';
-import Register from './src/Components/Register';
 import { navigationRef } from './src/utils/rootNavigation';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const { isLogged, changeStore } = useContext(Context);
+  console.log(isLogged);
 
   useEffect(() => {
     if (!isLogged) return;
@@ -50,12 +51,17 @@ const App = () => {
       <Menu />
       <View style={{flex: 1, flexGrow: 1}}> 
           <Stack.Navigator >
-          {/* {isLogged && ( */}
+          {!isLogged && (
             <>
             <Stack.Screen name="Login" component={LoginContent} options={{headerShown: false}}/>
             <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
             </>
-            {/* )} */}
+            )}
+          {isLogged && (
+            <>
+            <Stack.Screen name="ShoppingList" component={ShoppingListContent} options={{headerShown: false}}/>
+            </>
+            )}
           </Stack.Navigator>
           </View>
         </NavigationContainer>

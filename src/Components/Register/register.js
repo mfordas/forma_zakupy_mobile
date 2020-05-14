@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import Store from '../../Store';
 import Confirm from './confirm';
 import ErrorMessage from '../ReusableComponents/ErrorMessage';
@@ -76,7 +76,6 @@ class Register extends React.Component {
 
   onButtonSubmit = async e => {
     e.preventDefault();
-    console.log(this.state);
     this.setState({ emailTaken: false })
     await this.checkEmail();
     this.nameValidate(e);
@@ -119,6 +118,7 @@ class Register extends React.Component {
 
   render() {
     return (
+      <ScrollView>
         <View style={mainStyling.container} >
           {this.state.confirm === false ? <View style={mainStyling.registerCard} >
           <View>
@@ -127,27 +127,28 @@ class Register extends React.Component {
           <View>
             <TextInput  style={mainStyling.input}  onChangeText={text => this.setState({ name: text })}></TextInput>
             {this.nameValidate()}
-            <Text style={mainStyling.buttonMenuText}>Imię</Text>
+            <Text style={mainStyling.registerCardText}>Imię</Text>
           </View>
           <View>
             <TextInput style={mainStyling.input} textContentType={'emailAddress'} onChangeText={text => this.setState({ email: text })}></TextInput>
             {this.emailValidate()}
-            <Text style={mainStyling.buttonMenuText}>E-mail</Text>
+            <Text style={mainStyling.registerCardText}>E-mail</Text>
           </View>
           <View>
             <TextInput  style={mainStyling.input} textContentType={'password'} secureTextEntry={true}  onChangeText={text => this.setState({ password: text })}></TextInput>
             {this.passwordValidate()}
-            <Text style={mainStyling.buttonMenuText}>Hasło</Text>
+            <Text style={mainStyling.registerCardText}>Hasło</Text>
           </View>
           <View>
             <TextInput style={mainStyling.input} textContentType={'password'} secureTextEntry={true} onChangeText={text => this.setState({ confirmPassword: text })}></TextInput>
-            <Text style={mainStyling.buttonMenuText}>Powierdź hasło</Text>
+            <Text style={mainStyling.registerCardText}>Powierdź hasło</Text>
           </View>
           <View style={mainStyling.containerMenu}>
           <TouchableOpacity style={mainStyling.buttonRegisterCard} onPress={this.onButtonSubmit}><Text style={mainStyling.buttonMenuText}>Zarejestruj</Text></TouchableOpacity>
           </View>
           </View> : <Confirm name={this.state.name} email={this.state.email}/>}
         </View>
+      </ScrollView>
     );
   }
 }

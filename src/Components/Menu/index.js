@@ -23,6 +23,7 @@ const Menu = () => {
         removeItem('id');
         changeStore('isLogged', false);
         changeStore('hasCharacter', null)
+        console.log(isLogged);
     };
 
     return ( <View style={mainStyling.containerMenu}>
@@ -37,8 +38,8 @@ const Menu = () => {
     {isLogged &&
     (
         <>
-        <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Moje Listy zakupów</Text></TouchableOpacity>
-                <TouchableOpacity style={mainStyling.buttonMenu}><Text style={mainStyling.buttonMenuText}>Wspólne listy zakupów</Text></TouchableOpacity>
+        <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => RootNavigation.navigate("PrivateShoppingLists")}><Text style={mainStyling.buttonMenuText}>Moje Listy zakupów</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.buttonMenu}onPress={() => RootNavigation.navigate("CommonShoppingLists")}><Text style={mainStyling.buttonMenuText}>Wspólne listy zakupów</Text></TouchableOpacity>
                 <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => handleLogout()}><Text style={mainStyling.buttonMenuText}>Wyloguj</Text></TouchableOpacity>
         </>
     )}
