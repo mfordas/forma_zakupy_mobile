@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import 'react-native-gesture-handler';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import LogoHomePage from './src/Components/Homepage/logo';
 import Menu from './src/Components/Menu';
@@ -15,6 +15,15 @@ import setHeaders from "./src/utils/setHeaders";
 import { navigationRef } from './src/utils/rootNavigation';
 
 const Stack = createStackNavigator();
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'white',
+  },
+};
+
 
 const App = () => {
   const { isLogged, changeStore } = useContext(Context);
@@ -46,11 +55,10 @@ const App = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} theme={MyTheme}>
       <LogoHomePage />
       <Menu />
-      <View style={{flex: 1, flexGrow: 1}}> 
-          <Stack.Navigator >
+          <Stack.Navigator>
           {!isLogged && (
             <>
             <Stack.Screen name="Login" component={LoginContent} options={{headerShown: false}}/>
@@ -63,7 +71,6 @@ const App = () => {
             </>
             )}
           </Stack.Navigator>
-          </View>
         </NavigationContainer>
       </SafeAreaView>
   );

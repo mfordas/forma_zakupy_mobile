@@ -59,7 +59,8 @@ class Login extends React.Component {
       }
     }
     catch (error) {
-      Alert.alert('Error', error.message);
+      Alert.alert('Błąd logowania', 'Sprawdź komunikaty');
+      console.log(error.message)
       this.setState({ invalidData: true });
     }
   }

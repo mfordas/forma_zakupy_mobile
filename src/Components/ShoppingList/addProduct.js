@@ -95,7 +95,7 @@ class AddProduct extends React.Component {
                 <Picker.Item label="szt" value="szt" />
               </Picker>
                 </View>
-                <TouchableOpacity onPress={this.addProductToList}><Text style={mainStyling.buttonText}>Dodaj</Text></TouchableOpacity>
+                <TouchableOpacity style={mainStyling.button} onPress={this.addProductToList}><Text style={mainStyling.buttonText}>Dodaj</Text></TouchableOpacity>
             </View>
         );
     }
