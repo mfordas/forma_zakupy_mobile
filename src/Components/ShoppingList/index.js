@@ -36,9 +36,9 @@ class ShoppingListContent extends React.Component {
     render() {
         return (
             <Stack.Navigator >
-              <Stack.Screen name="PrivateShoppingLists" options={{headerShown: false}}>{props => <ShowShoppingLists {...props} type={'PrivateShoppingLists'} />}</Stack.Screen>
-              <Stack.Screen name="CommonShoppingLists" options={{headerShown: false}}>{props => <ShowShoppingLists {...props} type={'CommonShoppingLists'} />}</Stack.Screen>
-              {this.state.shoppingLists.map(list => <Stack.Screen name={`${list.name}`} options={{headerShown: false}}>{props => <ShowShoppingList {...props} listInfo={{id:list._id, name:list.name, members_id:list.members_id}} />}</Stack.Screen>)}
+              <Stack.Screen name="PrivateShoppingLists" options={{headerShown: false}}>{props => <ShowShoppingLists {...props} type={'PrivateShoppingLists'} onClick={this.getShoppingLists} />}</Stack.Screen>
+              <Stack.Screen name="CommonShoppingLists" options={{headerShown: false}}>{props => <ShowShoppingLists {...props} type={'CommonShoppingLists'} onClick={this.getShoppingLists} />}</Stack.Screen>
+              {this.state.shoppingLists.map(list => <Stack.Screen name={`${list._id}`} options={{headerShown: false}}>{props => <ShowShoppingList {...props} listInfo={{id:list._id, name:list.name, members_id:list.members_id}} />}</Stack.Screen>)}
             </Stack.Navigator>
         );
     }

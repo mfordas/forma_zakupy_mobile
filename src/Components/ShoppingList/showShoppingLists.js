@@ -41,6 +41,7 @@ class ShowShoppingLists extends React.Component {
     }
 
     createListOfShoppingLists = (type) => {
+        this.props.onClick();
         return  this.state.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
         <ScrollView>
             <View key={list._id} style={mainStyling.containerShoppingList}>
@@ -51,7 +52,7 @@ class ShowShoppingLists extends React.Component {
                     <Text style={mainStyling.p}>{list.products.length}</Text>
                     </View>
                     <View>
-                <TouchableOpacity style={mainStyling.button} onPress={() => RootNavigation.navigate(`${list.name}`)} >
+                <TouchableOpacity style={mainStyling.button} onPress={() => RootNavigation.navigate(`${list._id}`)} >
                     <Text style={mainStyling.buttonText} >Przejdź</Text>
                 </TouchableOpacity>
                 </View>
