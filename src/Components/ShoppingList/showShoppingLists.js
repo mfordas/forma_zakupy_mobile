@@ -68,7 +68,8 @@ class ShowShoppingLists extends React.Component {
     render() {
         return (
             <View style={mainStyling.containerShoppingLists}>
-                <TouchableOpacity style={mainStyling.button} onPress={this.openNewShoppingListForm}><Text style={mainStyling.buttonText}>Dodaj listę zakupów</Text></TouchableOpacity>
+                {this.props.type === 'PrivateShoppingLists' ? 
+                <TouchableOpacity style={mainStyling.button} onPress={this.openNewShoppingListForm}><Text style={mainStyling.buttonText}>Dodaj listę zakupów</Text></TouchableOpacity> : <></>}
                 {this.state.addShoppingListActive ? <AddNewShoppingList onClick={this.getShoppingLists}/> : null}
                 {this.createListOfShoppingLists(this.props.type)}
             </View>
