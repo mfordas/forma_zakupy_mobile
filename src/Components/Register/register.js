@@ -51,7 +51,8 @@ class Register extends React.Component {
     }
     catch (error) {
       this.setState({ invalidData: true });
-      Alert.alert('Error Registration:', error.message);
+      Alert.alert('Błąd rejestracji:', 'Sprawdź komunikaty');
+      console.log(error.message);
     }
   }
 

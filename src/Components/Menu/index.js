@@ -26,7 +26,7 @@ const Menu = () => {
         console.log(isLogged);
     };
 
-    return ( <View style={mainStyling.containerMenu}>
+    return ( <View style={[mainStyling.containerMenu, {backgroundColor: 'white'}]}>
     {!isLogged &&
         (
             <>

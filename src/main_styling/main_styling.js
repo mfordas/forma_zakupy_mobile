@@ -6,8 +6,6 @@ const humanColor = 'rgb(245, 239, 191)';
 const leafRightSideColor = 'rgb(142, 193, 79)';
 const leafLeftSideColor = 'rgb(119, 170, 49)';
 
-// @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
-
 const mainStyling = StyleSheet.create({
 
   zakupy: {
@@ -21,6 +19,7 @@ const mainStyling = StyleSheet.create({
   logoContainer: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   
   logo: {
@@ -31,9 +30,8 @@ const mainStyling = StyleSheet.create({
   },
 
   containerMenu: {
-  alignSelf: 'center',
-  justifyContent: 'center',
   flexDirection: 'row',
+  justifyContent: 'center'
 },
 
   buttonMenu: {
@@ -55,6 +53,7 @@ const mainStyling = StyleSheet.create({
     paddingHorizontal: 1,
     textAlign: 'center',
     fontFamily: 'Lovelo-Black',
+    fontSize: 14,
   },
 
   button: {
@@ -74,6 +73,7 @@ const mainStyling = StyleSheet.create({
     paddingHorizontal: 10,
     textAlign: 'center',
     fontFamily: 'Lovelo-Black',
+    fontSize: 14,
   },
 
   container: {
@@ -118,7 +118,7 @@ buttonRegisterCard: {
   borderStyle: 'solid',
   borderColor: 'black',
   color: 'black',
-  fontSize: 14,
+  fontSize: 16,
   flex: 2,
   margin: 10,
   borderRadius: 20,
@@ -127,7 +127,7 @@ buttonRegisterCard: {
 },
 
 p: {
-  fontSize: 14,
+  fontSize: 16,
   margin: 10,
   alignItems: 'center',
   fontFamily: "Lovelo-Black",
@@ -149,7 +149,6 @@ containerShoppingList: {
 containerShoppingLists: {
   justifyContent: 'center',
   alignItems: 'center',
-  flexDirection: 'column',
 },
 
 containerProducts: {
