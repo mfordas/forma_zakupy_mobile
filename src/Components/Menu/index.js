@@ -23,7 +23,6 @@ const Menu = () => {
         removeItem('id');
         changeStore('isLogged', false);
         changeStore('hasCharacter', null)
-        console.log(isLogged);
     };
 
     return ( <View style={[mainStyling.containerMenu, {backgroundColor: 'white'}]}>

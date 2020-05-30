@@ -34,9 +34,11 @@ class ShowShoppingList extends React.Component {
     }
 
     showShoppingList = async () => {
+        const headers = await setHeaders();
         let products = await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.idShoppingList}/products`,
-            method: "GET"
+            method: "GET",
+            headers: headers
         });
         const productsArray = products.data;
         this.setState({ products: productsArray });
@@ -44,10 +46,11 @@ class ShowShoppingList extends React.Component {
 
     crossProduct = async (currentStatus, idProduct) => {
         const id = this.state.idShoppingList;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${idProduct}`,
             method: 'PUT',
-            headers: setHeaders(),
+            headers: headers,
             data: {
                 bought: !currentStatus,
             }
@@ -67,11 +70,12 @@ class ShowShoppingList extends React.Component {
 
     resetShoppingList = async () => {
         const id = this.state.idShoppingList;
+        const headers = await setHeaders();
         this.state.products.map(async product => {
             await axios({
                 url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${product._id}`,
                 method: 'PUT',
-                headers: setHeaders(),
+                headers: headers,
                 data: {
                     bought: false,
                 }

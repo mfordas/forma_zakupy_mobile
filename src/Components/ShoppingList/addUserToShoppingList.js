@@ -18,10 +18,11 @@ class AddUserToShoppingList extends React.Component {
 
     addUserToList = async (idUser) => {
         const id = this.state.idShoppingList;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/commonShoppingList/${idUser}`,
             method: 'PUT',
-            headers: setHeaders()
+            headers: headers
 
         }).then(res => {
             if (res.status === 200) {
@@ -41,11 +42,12 @@ class AddUserToShoppingList extends React.Component {
 
 
     showUsersProposals = async (text) => {
+        const headers = await setHeaders();
         if (text.length >= 3) {
             let usersList = await axios({
                 url: `http://192.168.0.38:8080/api/users/${text.toLowerCase()}`,
                 method: 'GET',
-                headers: setHeaders(),
+                headers: headers,
                 data: {
                     name: this.state.productName
                 }

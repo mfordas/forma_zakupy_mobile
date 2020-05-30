@@ -21,10 +21,11 @@ class DeleteShoppingList extends React.Component {
     removeShoppingListFromUsersShoppingLists = async () => {
         const idUser = await getValue('id');
         const id = this.state.idShoppingList;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/user/${idUser}`,
             method: "PUT",
-            headers: setHeaders()
+            headers: headers
         }).then(res => {
             if (res.status === 200) {
                 this.setState({ shoppingListDeleted: true});
@@ -40,10 +41,11 @@ class DeleteShoppingList extends React.Component {
 
     deleteShoppingListFromDataBase = async () => {
         const idSL = this.state.idShoppingList;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${idSL}`,
             method: "DELETE",
-            headers: setHeaders()
+            headers: headers
         }).then(res => {
             if (res.status === 200) {
                 this.setState({ shoppingListDeleted: true});

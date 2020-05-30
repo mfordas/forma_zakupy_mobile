@@ -5,6 +5,7 @@ import AddNewShoppingList from './addNewShoppingList';
 import DeleteShoppingList from './deleteShoppingList';
 import {getValue} from '../../utils/asyncStorageFunctions';
 import * as RootNavigation from '../../utils/rootNavigation';
+import setHeaders from '../../utils/setHeaders';
 import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingLists extends React.Component {
@@ -19,14 +20,27 @@ class ShowShoppingLists extends React.Component {
 
     getShoppingLists = async () => {
         const id = await getValue('id');
-        let shoppingListIds = await axios.get(`http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`);
-
+        const headers = await setHeaders();
+        
+        let shoppingListIds = await axios(
+            {
+                url:  `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`,
+                method: 'GET',
+                headers: headers
+            }
+            );
+        
         const idArray = shoppingListIds.data;
 
-        await Promise.all(idArray.map(async listId => (await axios.get(`http://192.168.0.38:8080/api/shoppingLists/${listId}`)
-            .then(res => res.data))))
-            .then(res => this.setState({ shoppingLists: res }));
-    }
+        await Promise.all(idArray.map(async listId => (await axios(
+            {
+                url:  `http://192.168.0.38:8080/api/shoppingLists/${listId}`,
+                method: 'GET',
+                headers: headers
+            }
+            ).then(res => res.data))))
+            .then(res => this.setState({ shoppingLists: res}));
+    };
 
     openNewShoppingListForm = () => {
         this.setState({addShoppingListActive: !this.state.addShoppingListActive});

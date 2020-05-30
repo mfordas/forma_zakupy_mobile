@@ -37,13 +37,13 @@ class Login extends React.Component {
       password:this.state.password};
     delete this.state["invalidData"];
     try {
+      const headers = await setHeaders();
       const res = await axios({
         method: 'post',
         url: 'http://192.168.0.38:8080/api/auth',
         data: data,
-        headers: setHeaders(),
+        headers: headers,
       });
-      console.log(res.status);
 
       if(res.status === 203) {
         this.setItem('email', this.state.email);

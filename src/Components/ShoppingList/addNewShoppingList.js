@@ -19,10 +19,11 @@ class AddNewShoppingList extends React.Component {
 
     addShoppingList = async () => {
         const id = await getValue('id');
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingList`,
             method: 'POST',
-            headers: setHeaders(),
+            headers: headers,
             data: {
                 name: this.state.shoppingListName
             }
