@@ -19,10 +19,11 @@ class DeleteProductFromShoppingList extends React.Component {
     deleteProduct = async () => {
         const id = this.state.idShoppingList;
         const idProd = this.state.idProduct;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${idProd}`,
             method: "DELETE",
-            headers: setHeaders()
+            headers: headers
         }).then(res => {
             if (res.status === 200) {
                 this.setState({ productDeleted: true});

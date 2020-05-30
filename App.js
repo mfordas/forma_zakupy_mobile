@@ -33,8 +33,12 @@ const App = () => {
     if (!isLogged) return;
     (async () => {
       try {
-        const response = await fetch("http://192.168.0.38:8080/api/users/me", setHeaders());
-        console.log(response);
+        const response = await axios({
+          url:  "/api/users/me",
+          method: "GET",
+          headers: setHeaders()
+        }
+        );
         if (response.status === 400) {
           localStorage.removeItem("token");
           changeStore("isLogged", false);

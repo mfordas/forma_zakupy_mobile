@@ -16,27 +16,31 @@ class ShowShoppingListMembers extends React.Component {
     };
 
     getMembersIds = async () => {
+        const headers = await setHeaders();
         let members = await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.shoppingListId}/members`,
-            method: "GET"
+            method: "GET",
+            headers: headers
         });
         this.setState({ membersIds: members.data });
     }
 
     getMembersData = async () => {
+        const headers = await setHeaders();
         let membersArray = await Promise.all(this.state.membersIds.map(async memberId => (await axios({
             url: `http://192.168.0.38:8080/api/users/byId/${memberId}`,
             method: "GET",
-            headers: setHeaders()
+            headers: headers
         }).then(res => res.data))));
         this.setState({ members: membersArray });
     };
 
     deleteMemberFromShoppingList = async (memberId) => {
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/users/${memberId}/shoppingList/${this.state.shoppingListId}`,
             method: 'PUT',
-            headers: setHeaders()
+            headers: headers
         }).then(res => {
             if (res.status === 200) {
                 this.getMembersIds();

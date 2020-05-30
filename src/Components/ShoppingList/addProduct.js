@@ -21,10 +21,11 @@ class AddProduct extends React.Component {
 
     addProductToList = async () => {
         const id = this.state.idShoppingList;
+        const headers = await setHeaders();
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product`,
             method: 'PUT',
-            headers: setHeaders(),
+            headers: headers,
             data: {
                 name: this.state.productName,
                 amount: this.state.productAmount,
@@ -49,11 +50,12 @@ class AddProduct extends React.Component {
 
 
     showProductsProposals = async (productName) => {
+        const headers = await setHeaders();
         if (productName.length >= 3) {
             let productsList = await axios({
                 url: `http://192.168.0.38:8080/api/products/${productName.toLowerCase()}`,
                 method: 'GET',
-                headers: setHeaders(),
+                headers: headers,
                 data: {
                     name: this.state.productName,
                     amount: this.state.productAmount,

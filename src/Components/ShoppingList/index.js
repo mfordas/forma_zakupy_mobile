@@ -3,6 +3,7 @@ import 'react-native-gesture-handler';
 import axios from 'axios';
 import { createStackNavigator } from '@react-navigation/stack';
 import {getValue} from '../../utils/asyncStorageFunctions';
+import setHeaders from '../../utils/setHeaders';
 import ShowShoppingLists from './showShoppingLists';
 import ShowShoppingList from './showShoppingList';
 
@@ -19,11 +20,25 @@ class ShoppingListContent extends React.Component {
 
     getShoppingLists = async () => {
         const id = await getValue('id');
-        let shoppingListIds = await axios.get(`http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`);
+        const headers = await setHeaders();
+
+        let shoppingListIds = await axios(
+            {
+                url:  `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`,
+                method: 'GET',
+                headers: headers
+            }
+            );
 
         const idArray = shoppingListIds.data;
 
-        await Promise.all(idArray.map(async listId => (await axios.get(`http://192.168.0.38:8080/api/shoppingLists/${listId}`)
+        await Promise.all(idArray.map(async listId => (await axios(
+            {
+                url:  `http://192.168.0.38:8080/api/shoppingLists/${listId}`,
+                method: 'GET',
+                headers: headers
+            }
+            )
             .then(res => res.data))))
             .then(res => this.setState({ shoppingLists: res }));
     }
