@@ -1,6 +1,7 @@
 import {
     TYPES
 } from '../redux_actions/types';
+import { getValue } from '../utils/asyncStorageFunctions';
 
 const initialState = {
     loginData: {
@@ -9,7 +10,7 @@ const initialState = {
         emailVerified: true,
         invalidData: false
     },
-    isLogged: localStorage.getItem("token") ? true : false,
+    isLogged: getValue("token") ? true : false,
     me: {}
 };
 
