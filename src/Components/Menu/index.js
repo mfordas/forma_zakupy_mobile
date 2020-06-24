@@ -1,32 +1,23 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import React, { useContext } from 'react';
+import React  from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
 import * as RootNavigation from '../../utils/rootNavigation';
-import Store from '../../Store';
+import { logout, myData } from '../../redux_actions/loginActions';
 import mainStyling from '../../main_styling/main_styling';
 
-const removeItem = async (key) => {
-    try {
-      await AsyncStorage.removeItem(`${key}`)
-    } catch(e) {
-      // remove error
-    }
-  
-    console.log('Done.')
-  }
+const Menu = ({ loginData, logout, myData }) => {
+    const handleLogout = async () => {
+        await logout();
+    };
 
-
-const Menu = () => {
-    const { isLogged, changeStore } = useContext(Store);
-    const handleLogout = () => {
-        removeItem('token');
-        removeItem('id');
-        changeStore('isLogged', false);
-        changeStore('hasCharacter', null)
+    if(loginData.isLogged && loginData.me === null){
+        myData();
     };
 
     return ( <View style={[mainStyling.containerMenu, {backgroundColor: 'white'}]}>
-    {!isLogged &&
+    {!loginData.isLogged &&
         (
             <>
                 <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => RootNavigation.navigate("Login")} ><Text style={mainStyling.buttonMenuText} >Logowanie</Text></TouchableOpacity>
@@ -34,7 +25,7 @@ const Menu = () => {
             </>
         )
         }
-    {isLogged &&
+    {loginData.isLogged &&
     (
         <>
         <TouchableOpacity style={mainStyling.buttonMenu} onPress={() => RootNavigation.navigate("PrivateShoppingLists")}><Text style={mainStyling.buttonMenuText}>Moje Listy zakupów</Text></TouchableOpacity>
@@ -47,6 +38,13 @@ const Menu = () => {
 
 }
 
-
-export default Menu;
+const mapStateToProps = (state) => ({
+    loginData: state.loginData,
+  });
+  
+  Menu.propTypes = {
+    loginData: PropTypes.object
+  }
+  
+  export default connect(mapStateToProps, { logout, myData })(Menu);
 
