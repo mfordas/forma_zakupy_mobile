@@ -1,7 +1,6 @@
 import {
     TYPES
 } from '../redux_actions/types';
-import { getValue } from '../utils/asyncStorageFunctions';
 
 const initialState = {
     loginData: {
@@ -19,11 +18,7 @@ export default function (state = initialState, action) {
         case TYPES.LOGIN:
             return {
                 ...state,
-                loginData: {
-                    ...state.loginData,
-                    emailVerified: action.emailVerified,
-                    invalidData: action.invalidData
-                    },
+                loginData: action.loginData,
                 isLogged: action.isLogged,
             };
         case TYPES.LOGOUT:

@@ -4,22 +4,23 @@ import setHeaders from '../utils/setHeaders';
 import {
     TYPES
 } from '../redux_actions/types';
+import { getValue } from '../utils/asyncStorageFunctions';
 
 
 export const getShoppingLists = () => async (dispatch) => {
-    const id = localStorage.getItem('id');
+    const id = await getValue('id');
     let shoppingListIds = await axios({
-        url: `api/shoppingLists/${id}/shoppingLists`,
+        url: `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`,
         method: 'GET',
-        headers: setHeaders()
+        headers: await setHeaders()
     });
-
+    
     const idArray = shoppingListIds.data;
 
     await Promise.all(idArray.map(async listId => (await axios({
                     url: `http://192.168.0.38:8080/api/shoppingLists/${listId}`,
                     method: 'GET',
-                    headers: setHeaders()
+                    headers: await setHeaders()
                 }
 
             )
@@ -28,15 +29,15 @@ export const getShoppingLists = () => async (dispatch) => {
             dispatch({
                 type: TYPES.SHOWSHOPPINGLISTS,
                 shoppingLists: res
-            }))
+            }));
 };
 
 export const addShoppingList = (shoppingListName) => async (dispatch) => {
-    const id = localStorage.getItem('id');
+    const id = await getValue('id');
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingList`,
         method: 'POST',
-        headers: setHeaders(),
+        headers: await setHeaders(),
         data: {
             name: shoppingListName
         }
@@ -60,11 +61,11 @@ export const addShoppingList = (shoppingListName) => async (dispatch) => {
 };
 
 export const removeShoppingListFromUsersShoppingLists = (id) => async (dispatch) => {
-    const idUser = localStorage.getItem('id');
+    const idUser = await getValue('id');
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${id}/user/${idUser}`,
         method: "PUT",
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => {
             if (res.status === 200) {
                 dispatch({
@@ -88,7 +89,7 @@ export const deleteShoppingListFromDataBase = (id) => async (dispatch) => {
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${id}`,
         method: "DELETE",
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => {
             if (res.status === 200) {
                 dispatch({
@@ -112,7 +113,7 @@ export const addProductToList = (id, productData) => async (dispatch) => {
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product`,
         method: 'PUT',
-        headers: setHeaders(),
+        headers: await setHeaders(),
         data: {
             name: productData.productName,
             amount: productData.productAmount,
@@ -139,12 +140,12 @@ export const addProductToList = (id, productData) => async (dispatch) => {
 };
 
 
-export const showProductsProposals = (e) => async (dispatch) => {
-    if (e.target.value.length >= 3) {
+export const showProductsProposals = (productName) => async (dispatch) => {
+    if (productName.length >= 3) {
         let productsList = await axios({
-            url: `http://192.168.0.38:8080/api/products/${e.target.value.toLowerCase()}`,
+            url: `http://192.168.0.38:8080/api/products/${productName.toLowerCase()}`,
             method: 'GET',
-            headers: setHeaders(),
+            headers: await setHeaders(),
         });
         dispatch({
             type: TYPES.SHOWPRODUCTPROPOSALS,
@@ -162,7 +163,7 @@ export const showShoppingList = (idShoppingList) => async (dispatch) => {
     let products = await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/products`,
         method: "GET",
-        headers: setHeaders()
+        headers: await setHeaders()
     });
     const productsArray = products.data;
     dispatch({
@@ -175,7 +176,7 @@ export const crossProduct = (idShoppingList, currentProductStatus, idProduct) =>
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/product/${idProduct}`,
         method: 'PUT',
-        headers: setHeaders(),
+        headers: await setHeaders(),
         data: {
             bought: !currentProductStatus,
         }
@@ -200,7 +201,7 @@ export const resetShoppingList = (idShoppingList, products) => async (dispatch) 
         await axios({
             url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/product/${product._id}`,
             method: 'PUT',
-            headers: setHeaders(),
+            headers: await setHeaders(),
             data: {
                 bought: false,
             }
@@ -236,7 +237,7 @@ export const getMembersIds = (idShoppingList) => async (dispatch) => {
     let members = await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/members`,
         method: "GET",
-        headers: setHeaders()
+        headers: await setHeaders()
     });
     dispatch({
         type: TYPES.GETSHOPPINGLISTMEMBERSIDS,
@@ -254,7 +255,7 @@ export const getMembersData = (membersIds) => async (dispatch) => {
     let membersArray = await Promise.all(membersIds.map(async memberId => (await axios({
         url: `http://192.168.0.38:8080/api/users/byId/${memberId}`,
         method: "GET",
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => res.data))));
     dispatch({
         type: TYPES.GETSHOPPINGLISTMEMBERS,
@@ -269,7 +270,7 @@ export const deleteMemberFromShoppingList = (memberId, shoppingListId) =>  async
     await axios({
         url: `http://192.168.0.38:8080/api/users/${memberId}/shoppingList/${shoppingListId}`,
         method: 'PUT',
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => {
         if (res.status === 200) {
             dispatch({
@@ -290,7 +291,7 @@ export const addUserToList = (idShoppingList ,idUser) => async (dispatch) => {
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/commonShoppingList/${idUser}`,
         method: 'PUT',
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => {
         if (res.status === 200) {
             dispatch({
@@ -313,11 +314,11 @@ export const addUserToList = (idShoppingList ,idUser) => async (dispatch) => {
 
 
 export const showUsersProposals = (e) => async (dispatch) => {
-    if (e.target.value.length >= 3) {
+    if (e.length >= 3) {
         let usersList = await axios({
-            url: `http://192.168.0.38:8080/api/users/names/${e.target.value.toLowerCase()}`,
+            url: `http://192.168.0.38:8080/api/users/names/${e.toLowerCase()}`,
             method: 'GET',
-            headers: setHeaders()
+            headers: await setHeaders()
         });
         dispatch({
             type: TYPES.SHOWUSERSPROPOSAL,
@@ -334,7 +335,7 @@ export const deleteProduct = (idShoppingList, idProduct) => async (dispatch) => 
     await axios({
         url: `http://192.168.0.38:8080/api/shoppingLists/${idShoppingList}/product/${idProduct}`,
         method: "DELETE",
-        headers: setHeaders()
+        headers: await setHeaders()
     }).then(res => {
         if (res.status === 200) {
             dispatch({

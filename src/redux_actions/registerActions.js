@@ -41,7 +41,7 @@ export const postUser = (data) => async (dispatch) => {
             'Error Registration:',
              `${error}` ,
             [
-              { text: "OK", onPress: () => console.log("OK Pressed") }
+              { text: "OK", onPress: () => console.log("Confirmed") }
             ],
             { cancelable: false }
           );

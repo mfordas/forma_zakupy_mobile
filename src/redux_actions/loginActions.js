@@ -1,31 +1,12 @@
 import { Alert } from 'react-native';
 import axios from 'axios';
 import jwt from 'jwt-decode';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import setHeaders from '../utils/setHeaders';
 import {
   TYPES
 } from '../redux_actions/types';
-import { getValue } from '../utils/asyncStorageFunctions';
-
-setItem = async (key, value) => {
-  try {
-    await AsyncStorage.setItem(`${key}`, `${value}`)
-  } catch (e) {
-    console.log(`Error while saving ${key}`);
-  }
-};
-
-const removeItem = async (key) => {
-  try {
-    await AsyncStorage.removeItem(`${key}`)
-  } catch(e) {
-    console.log(`Error while removing ${key}`);
-  }
-
-  console.log('Done.');
-};
+import { getValue, setItem, removeItem } from '../utils/asyncStorageFunctions';
 
 export const login = (data) => async (dispatch) => {
   try {
@@ -33,20 +14,21 @@ export const login = (data) => async (dispatch) => {
       method: 'post',
       url: 'http://192.168.0.38:8080/api/auth',
       data: data,
-      headers: setHeaders(),
+      headers: await setHeaders(),
     });
 
     if (res.status === 203) {
       await setItem('email', data.email);
       dispatch({
         type: TYPES.LOGIN,
+        loginData: {
           emailVerified: false
+        }
       });
     } else if (res.status === 200) {
       const token = res.headers["x-auth-token"];
       await setItem('token', token);
       await setItem('id', jwt(token)._id);
-      console.log('works');
       dispatch({
         type: TYPES.LOGIN,
         isLogged: true
@@ -54,21 +36,25 @@ export const login = (data) => async (dispatch) => {
     } else {
       dispatch({
         type: TYPES.LOGIN,
+        loginData: {
           invalidData: true
+        },
       });
     }
 
   } catch (error) {
     dispatch({
       type: TYPES.LOGIN,
+      loginData: {
         invalidData: true
+      },
     });
 
     Alert.alert(
       "Error Login:",
        `${error}` ,
       [
-        { text: "OK", onPress: () => console.log("OK Pressed") }
+        { text: "OK", onPress: () => console.log("Confirmed") }
       ],
       { cancelable: false }
     );
@@ -97,7 +83,7 @@ export const myData = () => async (dispatch) => {
     const response = await axios({
       url: "http://192.168.0.38:8080/api/users/me",
       method: "GET",
-      headers: setHeaders()
+      headers: await setHeaders()
     });
     console.log(response.status);
     if (response.status === 400) {
@@ -121,7 +107,7 @@ export const myData = () => async (dispatch) => {
       'Serwer nie odpowiada',
        `Error ${error}` ,
       [
-        { text: "OK", onPress: () => console.log("OK Pressed") }
+        { text: "OK", onPress: () => console.log("Confirmed") }
       ],
       { cancelable: false }
     );
