@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -6,12 +7,13 @@ import setHeaders from '../utils/setHeaders';
 import {
   TYPES
 } from '../redux_actions/types';
+import { getValue } from '../utils/asyncStorageFunctions';
 
 setItem = async (key, value) => {
   try {
     await AsyncStorage.setItem(`${key}`, `${value}`)
   } catch (e) {
-    // saving error
+    console.log(`Error while saving ${key}`);
   }
 };
 
@@ -19,11 +21,11 @@ const removeItem = async (key) => {
   try {
     await AsyncStorage.removeItem(`${key}`)
   } catch(e) {
-    // remove error
+    console.log(`Error while removing ${key}`);
   }
 
-  console.log('Done.')
-}
+  console.log('Done.');
+};
 
 export const login = (data) => async (dispatch) => {
   try {
@@ -35,17 +37,16 @@ export const login = (data) => async (dispatch) => {
     });
 
     if (res.status === 203) {
-      localStorage.setItem('email', data.email);
+      await setItem('email', data.email);
       dispatch({
         type: TYPES.LOGIN,
-        loginData: {
           emailVerified: false
-        },
       });
     } else if (res.status === 200) {
       const token = res.headers["x-auth-token"];
-      setItem('token', token);
-      setItem('id', jwt(token)._id);
+      await setItem('token', token);
+      await setItem('id', jwt(token)._id);
+      console.log('works');
       dispatch({
         type: TYPES.LOGIN,
         isLogged: true
@@ -53,20 +54,24 @@ export const login = (data) => async (dispatch) => {
     } else {
       dispatch({
         type: TYPES.LOGIN,
-        loginData: {
           invalidData: true
-        },
       });
     }
 
   } catch (error) {
-    console.error('Error Login:', error);
     dispatch({
       type: TYPES.LOGIN,
-      loginData: {
         invalidData: true
-      },
     });
+
+    Alert.alert(
+      "Error Login:",
+       `${error}` ,
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
   }
 };
 
@@ -94,6 +99,7 @@ export const myData = () => async (dispatch) => {
       method: "GET",
       headers: setHeaders()
     });
+    console.log(response.status);
     if (response.status === 400) {
       await removeItem('token');
 
@@ -110,9 +116,26 @@ export const myData = () => async (dispatch) => {
       isLogged: true,
       me: data,
     });
-  } catch (ex) {
-    console.error("Serwer nie odpowiada");
-    console.error("Error", ex);
+  } catch (error) {
+    Alert.alert(
+      'Serwer nie odpowiada',
+       `Error ${error}` ,
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
   }
+
+};
+
+export const loginCheck  = () => async (dispatch) => {
+  await getValue('token') ? dispatch({
+    type: TYPES.LOGINCHECK,
+    isLogged: true,
+  }) : dispatch({
+    type: TYPES.LOGINCHECK,
+    isLogged: false,
+  });
 
 };

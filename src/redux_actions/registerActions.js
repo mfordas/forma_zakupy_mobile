@@ -37,7 +37,14 @@ export const postUser = (data) => async (dispatch) => {
             invalidData: true,
             confirm: false,
         });
-        console.error('Error Registration:', error);
+        Alert.alert(
+            'Error Registration:',
+             `${error}` ,
+            [
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+          );
     }
 };
 

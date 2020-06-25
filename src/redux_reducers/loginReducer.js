@@ -10,7 +10,7 @@ const initialState = {
         emailVerified: true,
         invalidData: false
     },
-    isLogged: getValue("token") ? true : false,
+    isLogged: false,
     me: {}
 };
 
@@ -19,7 +19,11 @@ export default function (state = initialState, action) {
         case TYPES.LOGIN:
             return {
                 ...state,
-                loginData: action.loginData,
+                loginData: {
+                    ...state.loginData,
+                    emailVerified: action.emailVerified,
+                    invalidData: action.invalidData
+                    },
                 isLogged: action.isLogged,
             };
         case TYPES.LOGOUT:
@@ -34,6 +38,11 @@ export default function (state = initialState, action) {
                 ...state,
                 isLogged: action.isLogged,
                 me: action.me,
+            };
+        case TYPES.LOGINCHECK:
+            return {
+                ...state,
+                isLogged: action.isLogged,
             };
         default:
             return state;

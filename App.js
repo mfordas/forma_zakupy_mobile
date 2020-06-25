@@ -15,7 +15,6 @@ import Register from './src/Components/Register';
 import ShoppingListContent from './src/Components/ShoppingList';
 import { navigationRef } from './src/utils/rootNavigation';
 
-
 const Stack = createStackNavigator();
 
 const MyTheme = {

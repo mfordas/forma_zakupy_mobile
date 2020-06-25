@@ -1,20 +1,20 @@
-import React  from 'react';
+import React, { useEffect }  from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as RootNavigation from '../../utils/rootNavigation';
-import { logout, myData } from '../../redux_actions/loginActions';
+import { logout, myData, loginCheck } from '../../redux_actions/loginActions';
 import mainStyling from '../../main_styling/main_styling';
 
-const Menu = ({ loginData, logout, myData }) => {
+const Menu = ({ loginData, logout, loginCheck }) => {
     const handleLogout = async () => {
         await logout();
     };
 
-    if(loginData.isLogged && loginData.me === null){
-        myData();
-    };
+      useEffect(() => {
+        loginCheck();
+      }, [loginData.isLogged]);
 
     return ( <View style={[mainStyling.containerMenu, {backgroundColor: 'white'}]}>
     {!loginData.isLogged &&
@@ -46,5 +46,5 @@ const mapStateToProps = (state) => ({
     loginData: PropTypes.object
   }
   
-  export default connect(mapStateToProps, { logout, myData })(Menu);
+  export default connect(mapStateToProps, { logout, myData, loginCheck })(Menu);
 
