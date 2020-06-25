@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import axios from 'axios';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { getShoppingLists, setShoppingListInfo } from '../../redux_actions/shoppingListActions';
 import AddNewShoppingList from './addNewShoppingList';
 import DeleteShoppingList from './deleteShoppingList';
-import {getValue} from '../../utils/asyncStorageFunctions';
 import * as RootNavigation from '../../utils/rootNavigation';
-import setHeaders from '../../utils/setHeaders';
 import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingLists extends React.Component {
@@ -13,37 +14,13 @@ class ShowShoppingLists extends React.Component {
         super(props)
 
         this.state = {
-            shoppingLists: [],
             addShoppingListActive: false
         }
     }
 
-    getShoppingLists = async () => {
-        const id = await getValue('id');
-        const headers = await setHeaders();
-        
-        let shoppingListIds = await axios(
-            {
-                url:  `http://192.168.0.38:8080/api/shoppingLists/${id}/shoppingLists`,
-                method: 'GET',
-                headers: headers
-            }
-            );
-        
-        const idArray = shoppingListIds.data;
-
-        await Promise.all(idArray.map(async listId => (await axios(
-            {
-                url:  `http://192.168.0.38:8080/api/shoppingLists/${listId}`,
-                method: 'GET',
-                headers: headers
-            }
-            ).then(res => res.data))))
-            .then(res => this.setState({ shoppingLists: res}));
-    };
-
     openNewShoppingListForm = () => {
         this.setState({addShoppingListActive: !this.state.addShoppingListActive});
+        console.log(this.props.shoppingListsData);
     }
 
     shoppingListsCompareMethod = (shoppingList, type) => {
@@ -55,8 +32,7 @@ class ShowShoppingLists extends React.Component {
     }
 
     createListOfShoppingLists = (type) => {
-        this.props.onClick();
-        return  this.state.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
+        return  this.props.shoppingListsData.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
         <ScrollView>
             <View key={list._id} style={mainStyling.containerShoppingList}>
                 <View >
@@ -66,17 +42,24 @@ class ShowShoppingLists extends React.Component {
                     <Text style={mainStyling.p}>{list.products.length}</Text>
                     </View>
                     <View>
-                <TouchableOpacity style={mainStyling.button} onPress={() => RootNavigation.navigate(`${list._id}`)} >
+                <TouchableOpacity style={mainStyling.button} onPress={async () => {await this.props.setShoppingListInfo(list); RootNavigation.navigate(`${list._id}`)}} >
                     <Text style={mainStyling.buttonText} >Przejdź</Text>
                 </TouchableOpacity>
                 </View>
-                <DeleteShoppingList onClick={this.getShoppingLists} id={list._id}/>
+                <DeleteShoppingList onClick={() => this.props.getShoppingLists} id={list._id}/>
             </View></ScrollView> : null)
     }
 
     componentDidMount() {
-        this.getShoppingLists();
+        this.props.getShoppingLists();
     }
+
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(this.props.shoppingListsData.shoppingLists) !== JSON.stringify(prevProps.shoppingListsData.shoppingLists)) {
+            this.props.getShoppingLists();
+            this.createListOfShoppingLists();
+        }
+    };
 
 
     render() {
@@ -84,11 +67,19 @@ class ShowShoppingLists extends React.Component {
             <View style={mainStyling.containerShoppingLists}>
                 {this.props.type === 'PrivateShoppingLists' ? 
                 <TouchableOpacity style={mainStyling.button} onPress={this.openNewShoppingListForm}><Text style={mainStyling.buttonText}>Dodaj listę zakupów</Text></TouchableOpacity> : <></>}
-                {this.state.addShoppingListActive ? <AddNewShoppingList onClick={this.getShoppingLists}/> : null}
+                {this.state.addShoppingListActive ? <AddNewShoppingList /> : null}
                 {this.createListOfShoppingLists(this.props.type)}
             </View>
         );
     }
 }
 
-export default ShowShoppingLists;
+const mapStateToProps = (state) => ({
+    shoppingListsData: state.shoppingListsData,
+  });
+  
+  ShowShoppingLists.propTypes = {
+    shoppingListsData: PropTypes.object
+  }
+
+  export default connect(mapStateToProps, { getShoppingLists, setShoppingListInfo })(ShowShoppingLists);

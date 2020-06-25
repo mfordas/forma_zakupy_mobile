@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, TextInput, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput } from 'react-native';
 import {Picker} from '@react-native-community/picker';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { addProductToList, showProductsProposals, showShoppingList } from '../../redux_actions/shoppingListActions';
 import mainStyling from '../../main_styling/main_styling';
-import setHeaders from '../../utils/setHeaders';
 
 class AddProduct extends React.Component {
     constructor(props) {
@@ -13,71 +15,26 @@ class AddProduct extends React.Component {
             productName: '',
             productAmount: 0,
             productUnit: 'kg',
-            idShoppingList: this.props.id,
-            productAdded: null,
-            productsProposals: [],
         }
-    }
-
-    addProductToList = async () => {
-        const id = this.state.idShoppingList;
-        const headers = await setHeaders();
-        await axios({
-            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product`,
-            method: 'PUT',
-            headers: headers,
-            data: {
-                name: this.state.productName,
-                amount: this.state.productAmount,
-                unit: this.state.productUnit
-            }
-        }).then(res => {
-            if (res.status === 200) {
-
-                this.setState({ productAdded: true });
-            } else {
-                this.setState({ productAdded: false });
-            }
-        },
-            error => {
-                console.log(error);
-            }
-        );
-
-        this.props.onClick();
-
     };
 
-
-    showProductsProposals = async (productName) => {
-        const headers = await setHeaders();
-        if (productName.length >= 3) {
-            let productsList = await axios({
-                url: `http://192.168.0.38:8080/api/products/${productName.toLowerCase()}`,
-                method: 'GET',
-                headers: headers,
-                data: {
-                    name: this.state.productName,
-                    amount: this.state.productAmount,
-                    unit: this.state.productUnit
-                }
-            });
-            this.setState({ productsProposals: productsList.data });
-        } else {this.setState({ productsProposals: [] });}
-    }
+    addProductToList = () => {
+        this.props.addProductToList(this.props.shoppingListsData.shoppingListInfo.idShoppingList, this.state);
+        this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
+    };
 
     render() {
         return (
             <View style={mainStyling.containerAddShoppingList}>
                 <View style={mainStyling.horizontalFormContainer}>
                 <Text style={mainStyling.p}>Nazwa</Text>
-                <TextInput  style={mainStyling.input} onChangeText={text => {
-                    this.showProductsProposals(text);
+                <TextInput  style={mainStyling.input} onChangeText={async text => {
+                    await this.props.showProductsProposals(text);
                     this.setState({ productName: text })}} value={this.state.productName}>
                     </TextInput>
                 </View>
                 <View style={mainStyling.horizontalFormContainer}>
-            {this.state.productsProposals.map(product => <TouchableOpacity key={product._id} style={mainStyling.button} onPress={() => this.setState({productName: product.name, productsProposals: []})}><Text style={mainStyling.productsProposalText}>{product.name}</Text></TouchableOpacity>)}
+            {this.props.shoppingListsData.productsProposals.map(product => <TouchableOpacity key={product._id} style={mainStyling.button} onPress={() => this.setState({productName: product.name})}><Text style={mainStyling.productsProposalText}>{product.name}</Text></TouchableOpacity>)}
           </View>
                 <View style={mainStyling.horizontalFormContainer}>
                 <Text style={mainStyling.p}>Ilość</Text>
@@ -103,4 +60,12 @@ class AddProduct extends React.Component {
     }
 }
 
-export default AddProduct;
+const mapStateToProps = (state) => ({
+    shoppingListsData: state.shoppingListsData,
+});
+
+AddProduct.propTypes = {
+    shoppingListsData: PropTypes.object
+}
+
+export default connect(mapStateToProps, { addProductToList, showProductsProposals, showShoppingList })(AddProduct);

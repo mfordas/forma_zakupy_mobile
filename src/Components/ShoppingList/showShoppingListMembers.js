@@ -1,80 +1,37 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import axios from 'axios';
-import setHeaders from '../../utils/setHeaders';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { getMembersIds, getMembersData, deleteMemberFromShoppingList } from '../../redux_actions/shoppingListActions';
 import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingListMembers extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            shoppingListId: this.props.id,
-            membersIds: [],
-            members: []
-        }
-    };
-
-    getMembersIds = async () => {
-        const headers = await setHeaders();
-        let members = await axios({
-            url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.shoppingListId}/members`,
-            method: "GET",
-            headers: headers
-        });
-        this.setState({ membersIds: members.data });
-    }
-
-    getMembersData = async () => {
-        const headers = await setHeaders();
-        let membersArray = await Promise.all(this.state.membersIds.map(async memberId => (await axios({
-            url: `http://192.168.0.38:8080/api/users/byId/${memberId}`,
-            method: "GET",
-            headers: headers
-        }).then(res => res.data))));
-        this.setState({ members: membersArray });
-    };
-
-    deleteMemberFromShoppingList = async (memberId) => {
-        const headers = await setHeaders();
-        await axios({
-            url: `http://192.168.0.38:8080/api/users/${memberId}/shoppingList/${this.state.shoppingListId}`,
-            method: 'PUT',
-            headers: headers
-        }).then(res => {
-            if (res.status === 200) {
-                this.getMembersIds();
-            } else {
-                console.log('warrning');
-            }
-        },
-            error => {
-                console.log(error);
-            }
-        );
-    }
-
+   
     async componentDidMount() {
-        await this.getMembersIds();
-        await this.getMembersData();
+        await this.props.getMembersData(this.props.shoppingListsData.shoppingListInfo.membersIds);
     }
 
-    async componentDidUpdate(prevProps, prevState) {
-        if (JSON.stringify(this.state.membersIds) !== JSON.stringify(prevState.membersIds)) {
-            await this.getMembersData();
+    async componentDidUpdate(prevProps) {
+        if (JSON.stringify(this.props.shoppingListsData.shoppingListInfo.membersIds) !== JSON.stringify(prevProps.shoppingListsData.shoppingListInfo.membersIds)) {
+            await this.props.getMembersData(this.props.shoppingListsData.shoppingListInfo.membersIds);
         }
     };
 
+    deleteMember = (member) => {
+        this.props.deleteMemberFromShoppingList(member._id, this.props.shoppingListsData.shoppingListInfo.idShoppingList);
+        this.props.getMembersIds(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
+    }
 
     render() {
         return (
             <View style={mainStyling.containerProduct}>
-                {this.state.members.map(member => {
+                {this.props.shoppingListsData.members.map(member => {
                     return <View key={member._id} style={mainStyling.containerShoppingList}>
                         <View >
                             <Text style={mainStyling.p} >{member.name}</Text>
                         </View>
-                        <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMemberFromShoppingList(member._id)}>
+                        <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMember(member)}>
                             <Text style={mainStyling.buttonText}>Usuń</Text>
                         </TouchableOpacity>
                     </View>
@@ -84,4 +41,12 @@ class ShowShoppingListMembers extends React.Component {
     }
 }
 
-export default ShowShoppingListMembers;
+const mapStateToProps = (state) => ({
+    shoppingListsData: state.shoppingListsData,
+  });
+  
+  ShowShoppingListMembers.propTypes = {
+    shoppingListsData: PropTypes.object
+  }
+
+  export default connect(mapStateToProps, { getMembersIds, getMembersData, deleteMemberFromShoppingList })(ShowShoppingListMembers);

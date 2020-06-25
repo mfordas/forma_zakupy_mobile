@@ -82,7 +82,6 @@ class ProgressBar extends React.Component {
     componentDidUpdate(prevProps) {
         if (JSON.stringify(this.props.allProducts) !== JSON.stringify(prevProps.allProducts)) {
             this.countPercentage();
-            
         }
     };
 

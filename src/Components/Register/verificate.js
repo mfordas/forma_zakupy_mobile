@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+
 import mainStyling from '../../main_styling/main_styling';
 import * as RootNavigation from '../../utils/rootNavigation';
 

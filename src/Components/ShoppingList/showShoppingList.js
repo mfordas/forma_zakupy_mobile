@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-import axios from 'axios';
+// import axios from 'axios';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
+import { showShoppingList, crossProduct, resetShoppingList } from '../../redux_actions/shoppingListActions';
 import * as RootNavigation from '../../utils/rootNavigation';
-import setHeaders from '../../utils/setHeaders';
+// import setHeaders from '../../utils/setHeaders';
 import AddProduct from './addProduct';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
 import AddUserToShoppingList from './addUserToShoppingList';
@@ -23,74 +26,10 @@ class ShowShoppingList extends React.Component {
         super(props)
 
         this.state = {
-            products: [],
-            name: this.props.listInfo.name,
-            idShoppingList: this.props.listInfo.id,
-            members: this.props.listInfo.members_id,
             addProductActive: false,
             addUserActive: false,
             showShoppingListMembers: false
         }
-    }
-
-    showShoppingList = async () => {
-        const headers = await setHeaders();
-        let products = await axios({
-            url: `http://192.168.0.38:8080/api/shoppingLists/${this.state.idShoppingList}/products`,
-            method: "GET",
-            headers: headers
-        });
-        const productsArray = products.data;
-        this.setState({ products: productsArray });
-    }
-
-    crossProduct = async (currentStatus, idProduct) => {
-        const id = this.state.idShoppingList;
-        const headers = await setHeaders();
-        await axios({
-            url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${idProduct}`,
-            method: 'PUT',
-            headers: headers,
-            data: {
-                bought: !currentStatus,
-            }
-        }).then(res => {
-            if (res.status === 200) {
-                this.showShoppingList();
-            } else {
-                console.log('warrning');
-            }
-        },
-            error => {
-                console.log(error);
-            }
-        );
-
-    }
-
-    resetShoppingList = async () => {
-        const id = this.state.idShoppingList;
-        const headers = await setHeaders();
-        this.state.products.map(async product => {
-            await axios({
-                url: `http://192.168.0.38:8080/api/shoppingLists/${id}/product/${product._id}`,
-                method: 'PUT',
-                headers: headers,
-                data: {
-                    bought: false,
-                }
-            }).then(res => {
-                if (res.status === 200) {
-                    this.showShoppingList();
-                } else {
-                    console.log('warrning');
-                }
-            },
-                error => {
-                    console.log(error);
-                }
-            );
-        })
     }
 
     openNewProductForm = () => {
@@ -105,15 +44,23 @@ class ShowShoppingList extends React.Component {
     }
 
     backButtonHandle = () => {
-        const previousScreen = this.state.members.length === 1 ? "PrivateShoppingLists" : "CommonShoppingLists";
+        const previousScreen = this.props.shoppingListsData.shoppingListInfo.membersIds.length === 1 ? "PrivateShoppingLists" : "CommonShoppingLists";
         RootNavigation.navigate(previousScreen);
     }
 
     componentDidMount() {
-        this.showShoppingList();
+        this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList);
     }
 
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(this.props.shoppingListsData.products) !== JSON.stringify(prevProps.shoppingListsData.products)) {
+            this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList);
+        }
+    };
+
     render() {
+        const { idShoppingList } = this.props.shoppingListsData.shoppingListInfo;
+        const { products } = this.props.shoppingListsData;
         return (
             <ScrollView>
             <View style={mainStyling.containerProducts}>
@@ -131,7 +78,7 @@ class ShowShoppingList extends React.Component {
                         <Text style={mainStyling.buttonContainerP}>Zobacz osoby</Text>
                     </View>
                     <View style={mainStyling.buttonContainer} >
-                        <TouchableOpacity style={mainStyling.button} onPress={this.resetShoppingList}><Image style={mainStyling.icon} source={arrowSyncSrc} /></TouchableOpacity>
+                        <TouchableOpacity style={mainStyling.button} onPress={() => {this.props.resetShoppingList(idShoppingList, products); this.props.showShoppingList(idShoppingList)}}><Image style={mainStyling.icon} source={arrowSyncSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Reset listy</Text>
                     </View>
                     <View style={mainStyling.buttonContainer}>
@@ -139,13 +86,13 @@ class ShowShoppingList extends React.Component {
                         <Text style={mainStyling.buttonContainerP}>Powrót</Text>
                     </View>
                 </View>
-                {this.state.addProductActive ? <AddProduct onClick={this.showShoppingList} id={this.state.idShoppingList} /> : null}
-                {this.state.addUserActive ? <AddUserToShoppingList onClick={this.openNewUserForm} id={this.state.idShoppingList} /> : null}
-                {this.state.showShoppingListMembers ? <ShowShoppingListMembers onClick={this.showShoppingList} id={this.state.idShoppingList} membersIds={this.state.members} /> : null}
-                <ProgressBar allProducts={this.state.products} onChange={this.showShoppingList} />
-                {this.state.products.map(product =>
+                {this.state.addProductActive ? <AddProduct onClick={() => this.props.showShoppingList(idShoppingList)} id={idShoppingList} /> : null}
+                {this.state.addUserActive ? <AddUserToShoppingList onClick={this.openNewUserForm} /> : null}
+                {this.state.showShoppingListMembers ? <ShowShoppingListMembers onClick={() => this.props.showShoppingList(idShoppingList)} /> : null}
+                <ProgressBar allProducts={products} onChange={() => this.props.showShoppingList(idShoppingList)} />
+                {products.map(product =>
                     <View key={product._id} style={mainStyling.containerProduct}>
-                        <TouchableOpacity style={mainStyling.productName} onPress={() => this.crossProduct(product.bought, product._id)}>
+                        <TouchableOpacity style={mainStyling.productName} onPress={() => {this.props.crossProduct(idShoppingList, product.bought, product._id); this.props.showShoppingList(idShoppingList)}}>
                             <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.name}</Text>
                         </TouchableOpacity>
                         <View style={mainStyling.productNumber}>
@@ -154,7 +101,7 @@ class ShowShoppingList extends React.Component {
                         <View style={mainStyling.productNumber} >
                             <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.unit}</Text>
                         </View>
-                        <DeleteProductFromShoppingList onClick={this.showShoppingList} id={this.state.idShoppingList} idProd={product._id} />
+                        <DeleteProductFromShoppingList onClick={() => this.props.showShoppingList(idShoppingList)} idProd={product._id} />
                     </View>)}
             </View>
             </ScrollView>
@@ -162,4 +109,12 @@ class ShowShoppingList extends React.Component {
     }
 }
 
-export default ShowShoppingList;
+const mapStateToProps = (state) => ({
+    shoppingListsData: state.shoppingListsData,
+  });
+  
+  ShowShoppingList.propTypes = {
+    shoppingListsData: PropTypes.object
+  }
+  
+  export default connect(mapStateToProps, { showShoppingList, crossProduct, resetShoppingList })(ShowShoppingList);
