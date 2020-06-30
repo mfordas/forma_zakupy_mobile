@@ -22,7 +22,8 @@ export const login = (data) => async (dispatch) => {
       dispatch({
         type: TYPES.LOGIN,
         loginData: {
-          emailVerified: false
+          emailVerified: false,
+          invalidData: true
         }
       });
     } else if (res.status === 200) {
@@ -31,12 +32,25 @@ export const login = (data) => async (dispatch) => {
       await setItem('id', jwt(token)._id);
       dispatch({
         type: TYPES.LOGIN,
+        loginData: {
+          emailVerified: true
+        },
+        isLogged: true
+      });
+    } else if (res.status === 400) {
+      dispatch({
+        type: TYPES.LOGIN,
+        loginData: {
+          emailVerified: false,
+          invalidData: true
+        },
         isLogged: true
       });
     } else {
       dispatch({
         type: TYPES.LOGIN,
         loginData: {
+          emailVerified: true,
           invalidData: true
         },
       });
@@ -46,10 +60,10 @@ export const login = (data) => async (dispatch) => {
     dispatch({
       type: TYPES.LOGIN,
       loginData: {
+        emailVerified: true,
         invalidData: true
       },
     });
-
     Alert.alert(
       "Error Login:",
        `${error}` ,

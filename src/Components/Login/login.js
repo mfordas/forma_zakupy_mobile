@@ -20,16 +20,18 @@ class Login extends React.Component {
 
   onButtonSubmit = async e => {
     e.preventDefault();
+    console.log(this.props.loginData.loginData);
     const data = {email: this.state.email,
       password:this.state.password};
+      this.loginValidate();
       await this.props.login(data);
   }
 
-  loginValidate = (e) => {
-    if (this.props.loginData.loginData.emailVerified === true && this.props.loginData.loginData.invalidData) {
+  loginValidate = () => {
+    if (this.props.loginData.loginData.emailVerified === true && this.props.loginData.loginData.invalidData === true) {
       return <ErrorMessage message='Zły e-mail lub hasło'/>
     }
-    if (this.props.loginData.loginData.emailVerified === false && this.props.loginData.loginData.invalidData){
+    if (this.props.loginData.loginData.emailVerified === false && this.props.loginData.loginData.invalidData === true){
       return <ErrorMessage message='Adres e-mail niezweryfikowany'/>
     }
     else { return null }

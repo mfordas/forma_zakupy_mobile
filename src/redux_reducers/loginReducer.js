@@ -18,7 +18,11 @@ export default function (state = initialState, action) {
         case TYPES.LOGIN:
             return {
                 ...state,
-                loginData: action.loginData,
+                loginData: {
+                    ...state.loginData,
+                    emailVerified: action.loginData.emailVerified,
+                    invalidData: action.loginData.invalidData
+                },
                 isLogged: action.isLogged,
             };
         case TYPES.LOGOUT:
