@@ -92,7 +92,7 @@ class ShowShoppingList extends React.Component {
                 <ProgressBar allProducts={products} onChange={() => this.props.showShoppingList(idShoppingList)} />
                 {products.map(product =>
                     <View key={product._id} style={mainStyling.containerProduct}>
-                        <TouchableOpacity style={mainStyling.productName} onPress={() => {this.props.crossProduct(idShoppingList, product.bought, product._id); this.props.showShoppingList(idShoppingList)}}>
+                        <TouchableOpacity style={mainStyling.productName} onPress={async () => {await this.props.crossProduct(idShoppingList, product.bought, product._id); await this.props.showShoppingList(idShoppingList); console.log(this.props.shoppingListsData)}}>
                             <Text style={[product.bought ? { textDecorationLine: 'line-through', color: 'green' } : null, mainStyling.p]}>{product.name}</Text>
                         </TouchableOpacity>
                         <View style={mainStyling.productNumber}>

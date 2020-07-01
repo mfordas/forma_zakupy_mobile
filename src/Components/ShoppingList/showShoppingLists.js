@@ -55,7 +55,7 @@ class ShowShoppingLists extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (JSON.stringify(this.props.shoppingListsData.shoppingLists) !== JSON.stringify(prevProps.shoppingListsData.shoppingLists)) {
+        if (JSON.stringify(this.props.shoppingListsData) !== JSON.stringify(prevProps.shoppingListsData)) {
             this.props.getShoppingLists();
             this.createListOfShoppingLists();
         }
