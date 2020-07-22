@@ -60,10 +60,9 @@ export const addShoppingList = (shoppingListName) => async (dispatch) => {
     );
 };
 
-export const removeShoppingListFromUsersShoppingLists = (id) => async (dispatch) => {
-    const idUser = await getValue('id');
+export const removeShoppingListFromUsersShoppingLists = (id, idSL) => async (dispatch) => {
     await axios({
-        url: `http://192.168.0.38:8080/api/shoppingLists/${id}/user/${idUser}`,
+        url: `http://192.168.0.38:8080/api/users/${id}/shoppingList/${idSL}`,
         method: "PUT",
         headers: await setHeaders()
     }).then(res => {
@@ -268,7 +267,7 @@ export const getMembersData = (membersIds) => async (dispatch) => {
 
 export const deleteMemberFromShoppingList = (memberId, shoppingListId) =>  async (dispatch) => {
     await axios({
-        url: `http://192.168.0.38:8080/api/users/${memberId}/shoppingList/${shoppingListId}`,
+        url: `http://192.168.0.38:8080/api/shoppingLists/${shoppingListId}/user/${memberId}`,
         method: 'PUT',
         headers: await setHeaders()
     }).then(res => {

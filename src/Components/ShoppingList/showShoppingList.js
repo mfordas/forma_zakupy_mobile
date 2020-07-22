@@ -1,12 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
-// import axios from 'axios';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { showShoppingList, crossProduct, resetShoppingList } from '../../redux_actions/shoppingListActions';
 import * as RootNavigation from '../../utils/rootNavigation';
-// import setHeaders from '../../utils/setHeaders';
 import AddProduct from './addProduct';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
 import AddUserToShoppingList from './addUserToShoppingList';
