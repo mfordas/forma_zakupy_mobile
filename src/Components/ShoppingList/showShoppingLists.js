@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { getShoppingLists, setShoppingListInfo } from '../../redux_actions/shoppingListActions';
 import AddNewShoppingList from './addNewShoppingList';
 import DeleteShoppingList from './deleteShoppingList';
+import { getValue } from '../../utils/asyncStorageFunctions';
 import * as RootNavigation from '../../utils/rootNavigation';
 import mainStyling from '../../main_styling/main_styling';
 
@@ -20,7 +21,6 @@ class ShowShoppingLists extends React.Component {
 
     openNewShoppingListForm = () => {
         this.setState({addShoppingListActive: !this.state.addShoppingListActive});
-        console.log(this.props.shoppingListsData);
     }
 
     shoppingListsCompareMethod = (shoppingList, type) => {
@@ -31,7 +31,9 @@ class ShowShoppingLists extends React.Component {
         } 
     }
 
-    createListOfShoppingLists = (type) => {
+    createListOfShoppingLists = async (type) => {
+        const userId = await getValue('id');
+        console.log(this.props.shoppingListsData.shoppingLists);
         return  this.props.shoppingListsData.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
         <ScrollView>
             <View key={list._id} style={mainStyling.containerShoppingList}>
@@ -46,8 +48,9 @@ class ShowShoppingLists extends React.Component {
                     <Text style={mainStyling.buttonText} >Przejdź</Text>
                 </TouchableOpacity>
                 </View>
-                <DeleteShoppingList onClick={() => this.props.getShoppingLists} id={list._id}/>
-            </View></ScrollView> : null)
+                {list.members_id[0] === userId ? <DeleteShoppingList id={list._id} membersIds={list.members_id} /> : null}
+            </View>
+            </ScrollView> : null)
     }
 
     componentDidMount() {
@@ -57,7 +60,7 @@ class ShowShoppingLists extends React.Component {
     componentDidUpdate(prevProps) {
         if (JSON.stringify(this.props.shoppingListsData) !== JSON.stringify(prevProps.shoppingListsData)) {
             this.props.getShoppingLists();
-            this.createListOfShoppingLists();
+            this.createListOfShoppingLists(this.props.type);
         }
     };
 
@@ -66,8 +69,10 @@ class ShowShoppingLists extends React.Component {
         return (
             <View style={mainStyling.containerShoppingLists}>
                 {this.props.type === 'PrivateShoppingLists' ? 
-                <TouchableOpacity style={mainStyling.button} onPress={this.openNewShoppingListForm}><Text style={mainStyling.buttonText}>Dodaj listę zakupów</Text></TouchableOpacity> : <></>}
+                <>
+                <TouchableOpacity style={mainStyling.button} onPress={this.openNewShoppingListForm}><Text style={mainStyling.buttonText}>Dodaj listę zakupów</Text></TouchableOpacity>
                 {this.state.addShoppingListActive ? <AddNewShoppingList /> : null}
+                </> : null}
                 {this.createListOfShoppingLists(this.props.type)}
             </View>
         );

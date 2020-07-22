@@ -3,7 +3,8 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getMembersIds, getMembersData, deleteMemberFromShoppingList } from '../../redux_actions/shoppingListActions';
+import { getValue } from '../../utils/asyncStorageFunctions';
+import { getMembersIds, getMembersData, deleteMemberFromShoppingList, removeShoppingListFromUsersShoppingLists } from '../../redux_actions/shoppingListActions';
 import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingListMembers extends React.Component {
@@ -18,9 +19,10 @@ class ShowShoppingListMembers extends React.Component {
         }
     };
 
-    deleteMember = (member) => {
-        this.props.deleteMemberFromShoppingList(member._id, this.props.shoppingListsData.shoppingListInfo.idShoppingList);
-        this.props.getMembersIds(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
+    deleteMember = async (member) => {
+        await this.props.removeShoppingListFromUsersShoppingLists(member._id, this.props.shoppingListsData.shoppingListInfo.idShoppingList);
+        await this.props.deleteMemberFromShoppingList(member._id, this.props.shoppingListsData.shoppingListInfo.idShoppingList);
+        await this.props.getMembersIds(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
     }
 
     render() {
@@ -31,9 +33,10 @@ class ShowShoppingListMembers extends React.Component {
                         <View >
                             <Text style={mainStyling.p} >{member.name}</Text>
                         </View>
+                        {this.props.shoppingListsData.shoppingListInfo.membersIds[0] === getValue('id') ?
                         <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMember(member)}>
                             <Text style={mainStyling.buttonText}>Usuń</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> : <></> }
                     </View>
                 })}
             </View>
@@ -49,4 +52,4 @@ const mapStateToProps = (state) => ({
     shoppingListsData: PropTypes.object
   }
 
-  export default connect(mapStateToProps, { getMembersIds, getMembersData, deleteMemberFromShoppingList })(ShowShoppingListMembers);
+  export default connect(mapStateToProps, { getMembersIds, getMembersData, deleteMemberFromShoppingList, removeShoppingListFromUsersShoppingLists })(ShowShoppingListMembers);
