@@ -8,8 +8,16 @@ import { getMembersIds, getMembersData, deleteMemberFromShoppingList, removeShop
 import mainStyling from '../../main_styling/main_styling';
 
 class ShowShoppingListMembers extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            userId: ''
+        }
+    }
    
     async componentDidMount() {
+        this.setState({userId: await getValue('id')});
         await this.props.getMembersData(this.props.shoppingListsData.shoppingListInfo.membersIds);
     }
 
@@ -33,7 +41,7 @@ class ShowShoppingListMembers extends React.Component {
                         <View >
                             <Text style={mainStyling.p} >{member.name}</Text>
                         </View>
-                        {this.props.shoppingListsData.shoppingListInfo.membersIds[0] === getValue('id') ?
+                        {this.props.shoppingListsData.shoppingListInfo.membersIds[0] === this.state.userId ?
                         <TouchableOpacity style={mainStyling.button} onPress={() => this.deleteMember(member)}>
                             <Text style={mainStyling.buttonText}>Usuń</Text>
                         </TouchableOpacity> : <></> }

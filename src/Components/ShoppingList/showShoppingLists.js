@@ -15,7 +15,8 @@ class ShowShoppingLists extends React.Component {
         super(props)
 
         this.state = {
-            addShoppingListActive: false
+            addShoppingListActive: false,
+            userId: ''
         }
     }
 
@@ -31,9 +32,7 @@ class ShowShoppingLists extends React.Component {
         } 
     }
 
-    createListOfShoppingLists = async (type) => {
-        const userId = await getValue('id');
-        console.log(this.props.shoppingListsData.shoppingLists);
+    createListOfShoppingLists = (type) => {
         return  this.props.shoppingListsData.shoppingLists.map(list => this.shoppingListsCompareMethod(list.members_id, type) ?
         <ScrollView>
             <View key={list._id} style={mainStyling.containerShoppingList}>
@@ -48,13 +47,14 @@ class ShowShoppingLists extends React.Component {
                     <Text style={mainStyling.buttonText} >Przejdź</Text>
                 </TouchableOpacity>
                 </View>
-                {list.members_id[0] === userId ? <DeleteShoppingList id={list._id} membersIds={list.members_id} /> : null}
+                {list.members_id[0] === this.state.userId ? <DeleteShoppingList id={list._id} membersIds={list.members_id} /> : null}
             </View>
             </ScrollView> : null)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.getShoppingLists();
+        this.setState({userId: await getValue('id')});
     }
 
     componentDidUpdate(prevProps) {
