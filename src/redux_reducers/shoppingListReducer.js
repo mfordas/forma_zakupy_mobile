@@ -93,6 +93,11 @@ export default function (state = initialState, action) {
                 ...state,
                 usersProposals: action.usersProposals
             };
+            case TYPES.RESETUSERSPROPOSAL:
+            return {
+                ...state,
+                usersProposals: action.usersProposals
+            };
         case TYPES.DELETEPRODUCTFROMSHOPPINGLIST:
             return {
                 ...state,
