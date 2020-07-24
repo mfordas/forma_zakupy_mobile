@@ -123,7 +123,8 @@ export const addProductToList = (id, productData) => async (dispatch) => {
                 dispatch({
                     type: TYPES.ADDPRODUCT,
                     products: res.data.products,
-                    productAdded: true
+                    productAdded: true,
+                    productsProposals: []
                 })
             } else {
                 dispatch({
@@ -359,5 +360,12 @@ export const resetUsersProposals = () => (dispatch) => {
     dispatch({
         type: TYPES.RESETUSERSPROPOSAL,
         usersProposals: []
+    });
+};
+
+export const resetProductsProposals = () => (dispatch) => {
+    dispatch({
+        type: TYPES.RESETPRODUCTSPROPOSAL,
+        productsProposals: []
     });
 };

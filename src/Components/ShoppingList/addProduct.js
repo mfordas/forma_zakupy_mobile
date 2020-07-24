@@ -4,7 +4,7 @@ import {Picker} from '@react-native-community/picker';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { addProductToList, showProductsProposals, showShoppingList } from '../../redux_actions/shoppingListActions';
+import { addProductToList, showProductsProposals, showShoppingList, resetProductsProposals } from '../../redux_actions/shoppingListActions';
 import mainStyling from '../../main_styling/main_styling';
 
 class AddProduct extends React.Component {
@@ -18,9 +18,13 @@ class AddProduct extends React.Component {
         }
     };
 
-    addProductToList = () => {
-        this.props.addProductToList(this.props.shoppingListsData.shoppingListInfo.idShoppingList, this.state);
-        this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
+    addProductToList = async () => {
+        await this.props.addProductToList(this.props.shoppingListsData.shoppingListInfo.idShoppingList, this.state);
+        await this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList)
+    };
+
+    componentWillUnmount () {
+        this.props.resetProductsProposals();
     };
 
     render() {
@@ -28,9 +32,8 @@ class AddProduct extends React.Component {
             <View style={mainStyling.containerAddShoppingList}>
                 <View style={mainStyling.horizontalFormContainer}>
                 <Text style={mainStyling.p}>Nazwa</Text>
-                <TextInput  style={mainStyling.input} onChangeText={async text => {
-                    await this.props.showProductsProposals(text);
-                    this.setState({ productName: text })}} value={this.state.productName}>
+                <TextInput  style={mainStyling.input} onChangeText={text => {
+                    this.setState({ productName: text }, () => this.props.showProductsProposals(this.state.productName));}} onFocus={() => this.setState({productName: ''})} value={this.state.productName}>
                     </TextInput>
                 </View>
                 <View style={mainStyling.horizontalFormContainer}>
@@ -68,4 +71,4 @@ AddProduct.propTypes = {
     shoppingListsData: PropTypes.object
 }
 
-export default connect(mapStateToProps, { addProductToList, showProductsProposals, showShoppingList })(AddProduct);
+export default connect(mapStateToProps, { addProductToList, showProductsProposals, showShoppingList, resetProductsProposals })(AddProduct);
