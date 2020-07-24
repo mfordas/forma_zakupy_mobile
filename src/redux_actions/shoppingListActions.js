@@ -353,4 +353,11 @@ export const deleteProduct = (idShoppingList, idProduct) => async (dispatch) => 
           console.log(error);
         }
     );
-}
+};
+
+export const resetUsersProposals = () => (dispatch) => {
+    dispatch({
+        type: TYPES.RESETUSERSPROPOSAL,
+        usersProposals: []
+    });
+};
