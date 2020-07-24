@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { showShoppingList, crossProduct, resetShoppingList } from '../../redux_actions/shoppingListActions';
 import * as RootNavigation from '../../utils/rootNavigation';
+import { getValue } from '../../utils/asyncStorageFunctions';
 import AddProduct from './addProduct';
 import DeleteProductFromShoppingList from './deleteProducFromShoppingList';
 import AddUserToShoppingList from './addUserToShoppingList';
@@ -26,7 +27,8 @@ class ShowShoppingList extends React.Component {
         this.state = {
             addProductActive: false,
             addUserActive: false,
-            showShoppingListMembers: false
+            showShoppingListMembers: false,
+            userId: ''
         }
     }
 
@@ -46,7 +48,8 @@ class ShowShoppingList extends React.Component {
         RootNavigation.navigate(previousScreen);
     }
 
-    componentDidMount() {
+   async componentDidMount() {
+        this.setState({userId: await getValue('id')});
         this.props.showShoppingList(this.props.shoppingListsData.shoppingListInfo.idShoppingList);
     }
 
@@ -67,10 +70,11 @@ class ShowShoppingList extends React.Component {
         <TouchableOpacity style={mainStyling.button} onPress={this.openNewProductForm}><Image style={mainStyling.icon} source={plusSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Dodaj produkt</Text>
                     </View>
+                    {this.props.shoppingListsData.shoppingListInfo.membersIds[0] === this.state.userId ?
                     <View style={mainStyling.buttonContainer}>
                         <TouchableOpacity style={mainStyling.button} onPress={this.openNewUserForm}><Image style={mainStyling.icon} source={addUserSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Dodaj osobę</Text>
-                    </View>
+                    </View> : <></>}
                     <View style={mainStyling.buttonContainer} >
                         <TouchableOpacity style={mainStyling.button} onPress={this.showShoppingListMembers}><Image style={mainStyling.icon} source={groupSrc} /></TouchableOpacity>
                         <Text style={mainStyling.buttonContainerP}>Zobacz osoby</Text>
